@@ -1,0 +1,26 @@
+{
+  "name": "tooltipjs",
+  "version": "0.0.1",
+  "description": "A small javascript utility for displaying tooltips",
+  "main": "tooltip.js",
+  "scripts": {
+    "test": "gulp test"
+  },
+  "keywords": [
+    "tooltip",
+    "javascript",
+    "utility"
+  ],
+  "author": "Mike Engel <mike.engel@datuhealth.com>",
+  "license": "Apache 2.0",
+  "devDependencies": {
+    "brfs": "^1.2.0",
+    "browserify": "^8.1.1",
+    "gulp": "^3.8.10",
+    "gulp-jasmine-phantom": "^1.1.1",
+    "gulp-jscs": "^1.4.0",
+    "gulp-jshint": "^1.9.0",
+    "gulp-logwarn": "0.0.6",
+    "gulp-uglify": "^1.1.0"
+  }
+}

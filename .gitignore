@@ -1,0 +1,8 @@
+node_modules
+.tmp
+.DS_Store
+Thumbs.db
+*.sublime-project
+*.sublime-workspace
+*.orig
+*.log
