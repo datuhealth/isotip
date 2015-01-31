@@ -6,3 +6,4 @@ Thumbs.db
 *.sublime-workspace
 *.orig
 *.log
+tmp

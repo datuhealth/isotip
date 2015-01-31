@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <div id="mocha">
+        <p class="tooltip-click" data-tooltip-content="Test content">This is a default tooltip</p>
+        <p class="tooltip-click tooltip-top" data-tooltip-content="Test content" data-tooltip-placement="top">This is a top tooltip</p>
+        <p class="tooltip-click tooltip-right" data-tooltip-content="Test content" data-tooltip-placement="right">This is a right tooltip</p>
+        <p class="tooltip-click tooltip-bottom" data-tooltip-content="Test content" data-tooltip-placement="bottom">This is a bottom tooltip</p>
+        <p class="tooltip-click tooltip-left" data-tooltip-content="Test content" data-tooltip-placement="left">This is a left tooltip</p>
+        <p class="tooltip-click tooltip-title" data-tooltip-content="Test content" data-tooltip-title="Tooltip title">This is a tooltip with a title</p>
+        <p class="tooltip-click tooltip-html" data-tooltip-content="<span class='custom'>Hey there</span>" data-tooltip-html="true">This is a tooltip with custom HTML</p>
+    </div>
+    <script src="../node_modules/mocha/mocha.js"></script>
+    <script src="../node_modules/chai/chai.js"></script>
+    <script>mocha.setup( 'bdd' );</script>
+    <script src="../tmp/index.js"></script>
+    <script>
+      if (window.mochaPhantomJS) {
+        mochaPhantomJS.run();
+      } else {
+        mocha.run();
+      }
+    </script>
+  </body>
+</html>

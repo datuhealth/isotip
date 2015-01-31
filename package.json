@@ -4,7 +4,7 @@
   "description": "A small javascript utility for displaying tooltips",
   "main": "tooltip.js",
   "scripts": {
-    "test": "gulp test"
+    "test": "mkdir tmp; browserify test/index.js > tmp/index.js; gulp test; rm -r tmp"
   },
   "keywords": [
     "tooltip",
@@ -14,13 +14,13 @@
   "author": "Mike Engel <mike.engel@datuhealth.com>",
   "license": "Apache 2.0",
   "devDependencies": {
-    "brfs": "^1.2.0",
     "browserify": "^8.1.1",
+    "chai": "^1.10.0",
     "gulp": "^3.8.10",
-    "gulp-jasmine-phantom": "^1.1.1",
     "gulp-jscs": "^1.4.0",
     "gulp-jshint": "^1.9.0",
     "gulp-logwarn": "0.0.6",
-    "gulp-uglify": "^1.1.0"
+    "gulp-mocha-phantomjs": "^0.5.3",
+    "mocha": "^2.1.0"
   }
 }

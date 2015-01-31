@@ -2,27 +2,44 @@ var gulp = require( 'gulp' ),
     logwarn = require( 'gulp-logwarn' ),
     jshint = require( 'gulp-jshint' ),
     jscs = require( 'gulp-jscs' ),
-    uglify = require( 'gulp-uglify' ),
+    mocha = require( 'gulp-mocha-phantomjs' ),
     browserify = require( 'browserify' );
 
-gulp.task( 'logwarn', function() {
-    return gulp.src( 'tooltip.js' )
-        .pipe( logwarn());
-});
+gulp.task( 'jscs', function scriptsJSCSTask() {
+    'use strict';
 
-gulp.task( 'jscs', function() {
-    return gulp.src( 'tooltip.js' )
+    return gulp.src( './ampersand-floatinglabel-input-view.js' )
         .pipe( jscs());
 });
 
-gulp.task( 'jshint', function() {
-    return gulp.src( 'tooltip.js' )
+gulp.task( 'jshint', function scriptsJSHintTask() {
+    'use strict';
+
+    return gulp.src( './ampersand-floatinglabel-input-view.js' )
         .pipe( jshint())
         .pipe( jshint.reporter( 'default' ))
         .pipe( jshint.reporter( 'fail' ));
 });
 
-gulp.task( 'default', [ 'logwarn', 'jscs', 'jshint' ]);
+gulp.task( 'logwarn', function scriptsLogwarnTask() {
+    'use strict';
 
-gulp.task( 'test', [ 'logwarn', 'jscs', 'jshint' ]);
+    return gulp.src( './ampersand-floatinglabel-input-view.js' )
+        .pipe( logwarn([
+            'console.log',
+            'console.error',
+            'console.info',
+            'debugger'
+        ]));
+});
 
+gulp.task( 'mocha', function scriptsTestTask() {
+    'use strict';
+
+    return gulp.src( './test/index.html' )
+        .pipe( mocha());
+});
+
+gulp.task( 'default', [ 'jscs', 'jshint', 'logwarn', 'mocha' ]);
+
+gulp.task( 'test', [ 'jscs', 'jshint', 'logwarn', 'mocha' ]);

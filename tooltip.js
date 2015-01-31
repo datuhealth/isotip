@@ -21,7 +21,7 @@
  * - [x] Add mouseover and focus events
  * - [x] Document the hell out of this
  * - [x] Add license.md
- * - [ ] Move to it's own repo
+ * - [x] Move to it's own repo
  * - [ ] Publish to npm
  * - [ ] Create demo page
  * - [ ] Allow this to work outside of node (compile with browserify)
@@ -30,7 +30,7 @@
  * - [ ] Publish 1.0.0
  */
 
-module.exports = window.tooltip = {
+module.exports = {
     /**
      * Setup global options
      * These can and will be overwriteen if a config object is passed into this.init
@@ -95,10 +95,10 @@ module.exports = window.tooltip = {
             for ( var option in config ) {
                 if ( config.hasOwnProperty( option ) && this.options.hasOwnProperty( option )) {
                     // If it's a nested object, loop through that one too
-                    if ( typeof option === 'object' && !Array.isArray( option )) {
-                        for ( var subkey in option ) {
-                            if ( option.hasOwnProperty( subkey ) && this.options[ option ].hasOwnProperty( subkey )) {
-                                this.options[ option ][ subkey ] = option[ subkey ];
+                    if ( typeof config[ option ] === 'object' && !Array.isArray( config[ option ])) {
+                        for ( var subkey in config[ option ]) {
+                            if ( config[ option ].hasOwnProperty( subkey ) && this.options[ option ].hasOwnProperty( subkey )) {
+                                this.options[ option ][ subkey ] = config[ option ][ subkey ];
                             }
                         }
                     } else {
