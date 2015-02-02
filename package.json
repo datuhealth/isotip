@@ -1,7 +1,7 @@
 {
-  "name": "tooltipjs",
-  "version": "0.0.1",
-  "description": "A small javascript utility for displaying tooltips",
+  "name": "isotip",
+  "version": "0.1.0",
+  "description": "The javascript tooltip plugin with the same features but one less dependency",
   "main": "tooltip.js",
   "scripts": {
     "test": "mkdir tmp; browserify test/index.js > tmp/index.js; gulp test; rm -r tmp"
@@ -21,6 +21,7 @@
     "gulp-jshint": "^1.9.0",
     "gulp-logwarn": "0.0.6",
     "gulp-mocha-phantomjs": "^0.5.3",
-    "mocha": "^2.1.0"
+    "mocha": "^2.1.0",
+    "pre-commit": "^1.0.2"
   }
 }

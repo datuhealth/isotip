@@ -37,7 +37,14 @@ gulp.task( 'mocha', function scriptsTestTask() {
     'use strict';
 
     return gulp.src( './test/index.html' )
-        .pipe( mocha());
+        .pipe( mocha({
+            phantomjs: {
+                viewportSize: {
+                    width: 1024,
+                    height: 768
+                }
+            }
+        }));
 });
 
 gulp.task( 'default', [ 'jscs', 'jshint', 'logwarn', 'mocha' ]);

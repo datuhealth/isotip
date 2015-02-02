@@ -26,14 +26,14 @@
  * - [ ] Create demo page
  * - [ ] Allow this to work outside of node (compile with browserify)
  * - [ ] Test across browsers
- * - [ ] Write tests
+ * - [x] Write tests
  * - [ ] Publish 1.0.0
  */
 
 module.exports = {
     /**
      * Setup global options
-     * These can and will be overwriteen if a config object is passed into this.init
+     * These can and will be overwriteen if a config object is passed into this.init()
      */
     options: {
         html: false,
@@ -41,6 +41,7 @@ module.exports = {
         container: 'body',
         template: '<div class="tooltip" data-tooltip-target="tooltip"></div>',
         removalDelay: 200,
+        tooltipOffset: 10,
         windowPadding: {
             top: 10,
             right: 10,
@@ -379,7 +380,7 @@ module.exports = {
          */
         function positionTop() {
             tooltipX = ( triggerX - ( tooltipWidth / 2 )) + ( triggerWidth / 2 );
-            tooltipY = triggerY - tooltipHeight;
+            tooltipY = triggerY - tooltipHeight - self.options.tooltipOffset;
             tooltipRight = tooltipX + tooltipWidth;
 
             // If the tooltip extends beyond the right edge of the window...
@@ -406,7 +407,7 @@ module.exports = {
         }
 
         function positionRight() {
-            tooltipX = triggerX + triggerWidth;
+            tooltipX = triggerX + triggerWidth + self.options.tooltipOffset;
             tooltipY = ( triggerY - ( tooltipHeight / 2 )) + ( triggerHeight / 2 );
             tooltipRight = tooltipX + tooltipWidth;
 
@@ -422,7 +423,7 @@ module.exports = {
 
         function positionBottom() {
             tooltipX = ( triggerX - ( tooltipWidth / 2 )) + ( triggerWidth / 2 );
-            tooltipY = triggerY + triggerHeight;
+            tooltipY = triggerY + triggerHeight + self.options.tooltipOffset;
             tooltipRight = tooltipX + tooltipWidth;
             tooltipBottom = tooltipY + tooltipHeight;
 
@@ -450,7 +451,7 @@ module.exports = {
         }
 
         function positionLeft() {
-            tooltipX = triggerX - tooltipWidth;
+            tooltipX = triggerX - tooltipWidth - self.options.tooltipOffset;
             tooltipY = ( triggerY - ( tooltipHeight / 2 )) + ( triggerHeight / 2 );
 
             // If the tooltip extends beyond the right edge of the screen...
