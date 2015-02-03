@@ -4,7 +4,8 @@
   "description": "The javascript tooltip plugin with the same features but one less dependency",
   "main": "tooltip.js",
   "scripts": {
-    "test": "mkdir tmp; browserify test/index.js > tmp/index.js; gulp test; rm -r tmp"
+    "test": "mkdir tmp; browserify test/index.js > tmp/index.js; gulp test; rm -r tmp",
+    "dist": "browserify isotip.js -s isotip | derequire > dist/isotip.js"
   },
   "keywords": [
     "tooltip",
@@ -16,12 +17,15 @@
   "devDependencies": {
     "browserify": "^8.1.1",
     "chai": "^1.10.0",
+    "derequire": "^1.2.1",
+    "es5-shim": "^4.0.6",
     "gulp": "^3.8.10",
     "gulp-jscs": "^1.4.0",
     "gulp-jshint": "^1.9.0",
     "gulp-logwarn": "0.0.6",
     "gulp-mocha-phantomjs": "^0.5.3",
     "mocha": "^2.1.0",
-    "pre-commit": "^1.0.2"
+    "pre-commit": "^1.0.2",
+    "uglify-js": "^2.4.16"
   }
 }

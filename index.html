@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Isotip.js | A small javascript tooltip library</title>
+    <style>
+        * {
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            -ms-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font: normal normal 16px/1.4 'Helvetica Neue', Helvetica, Arial, Sans-serif;
+            color: #2C3E50;
+            background-color: #ECF0F1;
+        }
+
+        p {
+            text-align: center;
+        }
+
+        .h1 {
+            margin: 100px auto 0 auto;
+            color: #E67E22;
+            font-size: 60px;
+            font-size: 3.75rem;
+            text-align: center;
+        }
+
+        blockquote {
+            text-align: center;
+            font-size: 22px;
+            font-size: 1.375rem;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="h1">Isotip</h1>
+    <blockquote>
+        <p>The javascript tooltip plugin with the same features but one less dependency</p>
+    </blockquote>
+    <p>Isotip is a small (2kb minified and gzipped) and minimal node module to be included in your browserify (or similar) package for use in the browser. It's only dependencies are ES5 and a browser.</p>
+    <div class="default-tooltip">
+        <span class="tooltip-click" data-tooltip-content="This is the default tooltip">Click me!</span>
+    </div>
+    <script src="node_modules/es5-shim/es5-shim.min.js"></script>
+    <script src="dist/isotip.js"></script>
+    <script>isotip.init();</script>
+</body>
+</html>
