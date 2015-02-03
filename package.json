@@ -1,6 +1,6 @@
 {
   "name": "isotip",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "The javascript tooltip plugin with the same features but one less dependency",
   "main": "tooltip.js",
   "scripts": {

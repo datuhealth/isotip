@@ -52,6 +52,7 @@ Todo
 
 ## Changelog
 
+- 0.2.0 - IE8 compatability. Added better event handling so that IE8 doesn't throw errors.
 - 0.1.0 - Initial version. This doesn't include browser testing or a standalone version
 
 ## License
