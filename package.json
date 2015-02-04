@@ -1,7 +1,7 @@
 {
   "name": "isotip",
   "version": "0.2.0",
-  "description": "The javascript tooltip plugin with the same features but one less dependency",
+  "description": "The javascript tooltip plugin no dependencies",
   "main": "tooltip.js",
   "scripts": {
     "test": "mkdir tmp; browserify test/index.js > tmp/index.js; gulp test; rm -r tmp",

@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1,user-scalable=no">
+    <link rel="shortcut icon" href="isotip-favicon.png">
     <title>Isotip.js | A small javascript tooltip library</title>
     <style>
         * {
@@ -20,36 +22,47 @@
         }
 
         body {
+            padding: 10px;
             font: normal normal 16px/1.4 'Helvetica Neue', Helvetica, Arial, Sans-serif;
             color: #2C3E50;
             background-color: #ECF0F1;
         }
 
-        p {
-            text-align: center;
+        .content {
+            width: 100%;
+            max-width: 600px;
+            padding: 0;
+            margin: 0 auto;
         }
 
         .h1 {
-            margin: 100px auto 0 auto;
+            margin: 0 auto -15px auto;
             color: #E67E22;
             font-size: 60px;
             font-size: 3.75rem;
-            text-align: center;
         }
 
         blockquote {
-            text-align: center;
+            margin: 0;
             font-size: 22px;
             font-size: 1.375rem;
+            line-height: 1.2;
+        }
+
+        a {
+            color: #3498DB;
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
-    <h1 class="h1">Isotip</h1>
-    <blockquote>
-        <p>The javascript tooltip plugin with the same features but one less dependency</p>
-    </blockquote>
-    <p>Isotip is a small (2kb minified and gzipped) and minimal node module to be included in your browserify (or similar) package for use in the browser. It's only dependencies are ES5 and a browser.</p>
+    <div class="content">
+        <h1 class="h1">Isotip</h1>
+        <blockquote>
+            <p>The javascript tooltip plugin with no dependencies</p>
+        </blockquote>
+        <p>Isotip is a small (3kb minified and gzipped) and minimal node module to be included in your browserify (or similar) package for use in the browser. It's only dependencies are ES5 and a browser.</p>
+    </div>
     <div class="default-tooltip">
         <span class="tooltip-click" data-tooltip-content="This is the default tooltip">Click me!</span>
     </div>
