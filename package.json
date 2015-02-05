@@ -5,7 +5,7 @@
   "main": "tooltip.js",
   "scripts": {
     "test": "mkdir tmp; browserify test/index.js > tmp/index.js; gulp test; rm -r tmp",
-    "dist": "browserify isotip.js -s isotip | derequire > dist/isotip.js"
+    "dist": "browserify isotip.js -s isotip | derequire > dist/isotip.js; browserify isotip.js -s isotip | derequire | uglifyjs - > dist/isotip.min.js"
   },
   "keywords": [
     "tooltip",
