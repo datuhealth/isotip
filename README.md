@@ -46,12 +46,13 @@ Todo
 - [ ] Test in other browsers
 - [ ] Setup demo page
 - [ ] Provide documentation of API
-- [ ] Provide standalone version for use without a build tool
-- [ ] Provide a basic CSS sheet for styling the tooltips
+- [x] Provide standalone version for use without a build tool
+- [x] Provide a basic CSS sheet for styling the tooltips
 - [ ] Add accent (arrow) element to tooltip and adjust based on position
 
 ## Changelog
 
+- 0.3.0 - Added a basic demo page. It still needs desktop styles. Also added a couple extra classes on the tooltip for CSS purposes.
 - 0.2.0 - IE8 compatability. Added better event handling so that IE8 doesn't throw errors.
 - 0.1.0 - Initial version. This doesn't include browser testing or a standalone version
 
