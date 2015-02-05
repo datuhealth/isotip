@@ -3,7 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1,user-scalable=no">
-    <link rel="shortcut icon" href="isotip-favicon.png">
+    <link rel="shortcut icon" href="site/img/isotip-favicon.png">
+    <link rel="stylesheet" href="site/css/isotip.css">
     <title>Isotip.js | A small javascript tooltip library</title>
     <style>
         * {
@@ -28,11 +29,15 @@
             background-color: #ECF0F1;
         }
 
+        div + div {
+            margin-top: 20px;
+        }
+
         .content {
             width: 100%;
             max-width: 600px;
             padding: 0;
-            margin: 0 auto;
+            margin: 0 auto 40px auto;
         }
 
         .h1 {
@@ -40,6 +45,15 @@
             color: #E67E22;
             font-size: 60px;
             font-size: 3.75rem;
+            text-align: center;
+        }
+
+        .h2 {
+            margin: 0 auto;
+            color: #E67E22;
+            font-size: 32px;
+            font-size: 2rem;
+            text-align: center;
         }
 
         blockquote {
@@ -47,25 +61,197 @@
             font-size: 22px;
             font-size: 1.375rem;
             line-height: 1.2;
+            text-align: center;
         }
 
         a {
             color: #3498DB;
             text-decoration: none;
         }
+
+        img {
+            display: block;
+            margin: 20px auto -10px auto;
+            width: 80px;
+        }
+
+        p:last-of-type {
+            margin-bottom: 30px;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 15px;
+            font-weight: bold;
+            color: #E67E22;
+            border: 2px solid #E67E22;
+        }
+
+        .badges {
+            text-align: center;
+        }
+
+        iframe {
+            display: inline-block;
+        }
+
+        .center-text {
+            text-align: center;
+        }
+
+        .default-tooltip {
+            margin-bottom: 40px;
+        }
+
+        .tooltip-group {
+            margin: 40px 0;
+        }
+
+        .tooltip-group:after {
+            content: '';
+            display: table;
+            clear: both;
+        }
+
+        .tooltip-position-left,
+        .tooltip-position-right {
+            margin: 20px 0;
+        }
+
+        .tooltip-position-left {
+            float: left;
+        }
+
+        .tooltip-position-right {
+            float: right;
+        }
+
+        code {
+            padding: 2px 5px;
+            color: #E67E22;
+            white-space: nowrap;
+        }
+
+        pre {
+            margin: 0;
+            overflow: scroll;
+        }
+
+        pre code {
+            white-space: pre;
+        }
+
+        dt {
+            margin: 20px 0 10px 0;
+            padding: 3px 5px;
+            border-left: 3px solid #E67E22;
+        }
+
+        dd {
+            margin-bottom: 30px;
+        }
     </style>
 </head>
 <body>
     <div class="content">
+        <img src="site/img/isotip-icon.svg" alt="isotip logo">
         <h1 class="h1">Isotip</h1>
         <blockquote>
             <p>The javascript tooltip plugin with no dependencies</p>
         </blockquote>
-        <p>Isotip is a small (3kb minified and gzipped) and minimal node module to be included in your browserify (or similar) package for use in the browser. It's only dependencies are ES5 and a browser.</p>
+        <p>Isotip is a small (3kb minified and gzipped) and minimal node module to be included in your browserify (or similar) package for use in the browser. It's only dependencies are ES5 and a browser. View the source on <a href="https://github.com/datuhealth/isotip">Github</a>.</p>
+        <div class="badges">
+            <iframe src="https://ghbtns.com/github-btn.html?user=datuhealth&repo=isotip&type=star&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+            <iframe src="https://ghbtns.com/github-btn.html?user=datuhealth&repo=isotip&type=fork&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+        </div>
     </div>
-    <div class="default-tooltip">
-        <span class="tooltip-click" data-tooltip-content="This is the default tooltip">Click me!</span>
+    <div class="center-text default-tooltip">
+        <span class="tooltip-click button" data-tooltip-content="I'm the default tooltip">Click me</span>
     </div>
+    <p>Positioning a tooltip is as simple as adding an attribute. You can position a tooltip to the top, right, bottom, or left of an element. By default, tooltips appear above an element.</p>
+    <p>Additionally, if a tooltip is so large that it would run off-screen, Isotip will re-position it to a better position. Scrolling with a tooltip open will also keep it in position, and re-adjust if scrolling would cause it to move off-screen.</p>
+    <div class="center-text tooltip-group">
+        <div>
+            <span class="tooltip-click button tooltip-position-top" data-tooltip-content="I'm on top" data-tooltip-placement="top">On top</span>
+        </div>
+        <span class="tooltip-click button tooltip-position-left" data-tooltip-content="I'm on the right" data-tooltip-placement="right">On the right</span>
+        <span class="tooltip-click button tooltip-position-right" data-tooltip-content="I'm on the left" data-tooltip-placement="left">On the left</span>
+        <div>
+            <span class="tooltip-click button tooltip-position-bottom" data-tooltip-content="I'm on bottom" data-tooltip-placement="bottom">On the bottom</span>
+        </div>
+    </div>
+    <h2 class="h2" id="api">API</h2>
+    <p>Isotip (purposefully) has a simple api. It provides a simple helper function to automatically bind certain events and open tooltips when they fire.</p>
+    <p>Configuring a specific tooltip is done via data attributes on an element.</p>
+    <dl>
+        <dt><pre><code>data-tooltip-content</code></pre></dt>
+        <dd>
+            <p>This sets the main body content of the tooltip into a <code>&lt;p&gt;</code> tag by default with a class of <code>tooltip-content</code>. Content is interpretted as plain text by default. To insert html, set the <code>data-tooltip-html</code> attribute to true.</p>
+        </dd>
+        <dt><pre><code>data-tooltip-title</code></pre></dt>
+        <dd>
+            <p>This sets the title of the tooltip into a <code>&lt;p&gt;</code> tag by default with a class of <code>tooltip-title</code>.</p>
+        </dd>
+        <dt><pre><code>data-tooltip-html</code></pre></dt>
+        <dd>
+            <p>Setting this to true will force Isotip to try and interpret the content as HTML. If it fails, it will interpret the content as plain text.</p>
+        </dd>
+        <dt><pre><code>data-tooltip-placement</code></pre></dt>
+        <dd>
+            <p>This sets the position of the tooltip. Options are <code>top</code>, <code>right</code>, <code>bottom</code>, and <code>left</code>. By default, <code>top</code> is used for all tooltips.</p>
+        </dd>
+        <dt><pre><code>data-tooltip-container</code></pre></dt>
+        <dd>
+            <p>This sets the element that the tooltip will be prepended to. By default, this is the <code>&lt;body&gt;</code> element.</p>
+        </dd>
+    </dl>
+    <p>Alternatively, programattic creation and destruction of tooltips is available.</p>
+    <dl>
+        <dt><pre><code>init( config )</code></pre></dt>
+        <dd>
+            <p>The init method provides automatic event binding for tooltips. It sets up delegated event listeners for <code>.tooltip-click</code>, <code>.tooltip-hover</code>, and <code>.tooltip-focus</code> for click, mouseover, and focus events, respectively. You can pass in an optional config object to overwrite any of the default options.</p>
+            <pre><code>var options = {
+    html: false, // set to true to always interpret content as HTML
+    placement: 'top', // default placement of tooltips
+    container: 'body', // default containing element for the tooltip
+    template: &apos;&lt;div class=&quot;tooltip&quot; data-tooltip-target=&quot;tooltip&quot;&gt;&lt;/div&gt;&apos;, // default template for the tooltip shell
+    removalDelay: 200, // default number of ms before the tooltip is removed
+    tooltipOffset: 10, // default number of px the tooltip is offset from the trigger element
+    windowPadding: { // window bounds for tooltip repositioning
+        top: 10,
+        right: 10,
+        bottom: 10,
+        left: 10
+    }
+};
+
+isotip.init( config );</code></pre>
+        </dd>
+        <dt><pre><code>open( trigger, config )</code></pre></dt>
+        <dd>
+            <p>The open method will create the tooltip, insert it into the DOM, and position it in relation to it's trigger. The trigger can be an element or a CSS selector. The object to be passed in will serve as a replacement for the data attributes on the trigger.</p>
+            <pre><code>var config = {
+    html: false, // set to true to interpret content as HTML
+    placement: 'top', // where to place the tooltip in relation to the trigger
+    content: 'Tooltip content', // the content to go into the tooltip,
+    title: 'Tooltip title' // the text to go in the title, if any
+};
+
+isotip.open( '.tooltip', config );</code></pre>
+        </dd>
+        <dt><pre><code>close( tooltip )</code></pre></dt>
+        <dd>
+            <p>The close method will remove a tooltip from the DOM. The tooltip to remove should be passed in and can be an element or a CSS selector.</p>
+            <pre><code>isotip.close( '.tooltip' );</code></pre>
+        </dd>
+        <dt><pre><code>positionTooltip( tooltip, trigger, placement )</code></pre></dt>
+        <dd>
+            <p>The positionTooltip method will re-evaluate the position of a tooltip in relation to it's trigger element. Only the tooltip and trigger need to be passed in, and placement will default to what's been configured by <code>init()</code>. Tooltip and trigger can be either an element or a CSS selector.</p>
+            <pre><code>isotip.positionTooltip( '.tooltip', '.tooltip-click', 'left' );</code></pre>
+        </dd>
+    </dl>
+    <p>Isotip is licensed under the <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache 2.0</a> license.</p>
+    <p>Copyright 2015 Datu Health, Inc.</p>
     <script src="node_modules/es5-shim/es5-shim.min.js"></script>
     <script src="dist/isotip.js"></script>
     <script>isotip.init();</script>
