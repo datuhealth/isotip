@@ -23,7 +23,7 @@
  * - [x] Add license.md
  * - [x] Move to it's own repo
  * - [X] Add ability to cancel close when hovering on the tooltip
- * - [ ] Add arrow
+ * - [x] Add arrow
  * - [ ] Publish to npm
  * - [X] Create demo page
  * - [x] Allow this to work outside of node (compile with browserify)
@@ -382,6 +382,7 @@ module.exports = {
         }
 
         var self = this,
+            tooltipAccent = tooltip.appendChild( this.createDOMElement( '<div class="tooltip-accent"></div>' )),
             triggerWidth = parseInt( trigger.offsetWidth ),
             triggerHeight = parseInt( trigger.offsetHeight ),
             triggerPosition = trigger.getBoundingClientRect(),
@@ -396,7 +397,9 @@ module.exports = {
             tooltipWidth,
             tooltipHeight,
             tooltipRight,
-            tooltipBottom;
+            tooltipBottom,
+            tooltipAccentWidth,
+            tooltipAccentHeight;
 
         /**
          * We sometimes need to re-position the tooltip (I.E. switch from top to bottom)
@@ -407,10 +410,17 @@ module.exports = {
             tooltipY = triggerY - tooltipHeight - self.options.tooltipOffset;
             tooltipRight = tooltipX + tooltipWidth;
 
+            self.addClass( tooltip, 'tooltip-top' );
+
+            if ( !tooltipAccentWidth ) {
+                tooltipAccentWidth = parseInt( tooltipAccent.offsetWidth );
+            }
+
             // If the tooltip extends beyond the right edge of the window...
             if ( tooltipRight > windowRight ) {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.right = self.options.windowPadding.right + 'px';
+                tooltipAccent.style.right = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + 'px';
             // ...or if the tooltip extends beyond the top of the window...
             } else if ( tooltipY < windowTop ) {
                 // If the tooltip would never be shown on the page, don't bother
@@ -418,18 +428,20 @@ module.exports = {
                     return;
                 }
 
+                self.removeClass( tooltip, 'tooltip-top' );
+
                 return positionBottom();
             // ...or if the tooltip extends beyond the left edge of the window...
             } else if ( tooltipX < self.options.windowPadding.left ) {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.left = self.options.windowPadding.left + 'px';
+                tooltipAccent.style.left = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + 'px';
             // ...or it fits inside the window
             } else {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.left = tooltipX + 'px';
+                tooltipAccent.style.left = (( tooltipWidth / 2 ) - ( tooltipAccentWidth / 2 )) + 'px';
             }
-
-            self.addClass( tooltip, 'tooltip-top' );
         }
 
         function positionRight() {
@@ -437,16 +449,23 @@ module.exports = {
             tooltipY = ( triggerY - ( tooltipHeight / 2 )) + ( triggerHeight / 2 );
             tooltipRight = tooltipX + tooltipWidth;
 
+            self.addClass( tooltip, 'tooltip-right' );
+
+            if ( !tooltipAccentHeight ) {
+                tooltipAccentHeight = parseInt( tooltipAccent.offsetHeight );
+            }
+
             // If the tooltip extends beyond the right edge of the screen...
             if ( tooltipRight > windowRight ) {
+                self.removeClass( tooltip, 'tooltip-right' );
+
                 return positionTop();
             // ...or if it fits to the right of the trigger element
             } else {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.left = tooltipX + 'px';
+                tooltipAccent.style.top = (( tooltipHeight / 2 ) - ( tooltipAccentHeight / 2 )) + 'px';
             }
-
-            self.addClass( tooltip, 'tooltip-right' );
         }
 
         function positionBottom() {
@@ -455,10 +474,17 @@ module.exports = {
             tooltipRight = tooltipX + tooltipWidth;
             tooltipBottom = tooltipY + tooltipHeight;
 
+            self.addClass( tooltip, 'tooltip-bottom' );
+
+            if ( !tooltipAccentWidth ) {
+                tooltipAccentWidth = parseInt( tooltipAccent.offsetWidth );
+            }
+
             // If the tooltip extends beyond the right edge of the window...
             if ( tooltipRight > windowRight ) {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.right = self.options.windowPadding.right + 'px';
+                tooltipAccent.style.right = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + 'px';
             // ...or if the tooltip extends beyond the top of the window...
             } else if ( tooltipBottom > windowBottom ) {
                 // If the tooltip would never be shown on the page, don't bother
@@ -466,40 +492,50 @@ module.exports = {
                     return;
                 }
 
+                self.removeClass( tooltip, 'tooltip-bottom' );
+
                 return positionTop();
             // ...or if the tooltip extends beyond the left edge of the window...
             } else if ( tooltipX < self.options.windowPadding.left ) {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.left = self.options.windowPadding.left + 'px';
+                tooltipAccent.style.left = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + 'px';
             // ...or it fits inside the window
             } else {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.left = tooltipX + 'px';
+                tooltipAccent.style.left = (( tooltipWidth / 2 ) - ( tooltipAccentWidth / 2 )) + 'px';
             }
-
-            self.addClass( tooltip, 'tooltip-bottom' );
         }
 
         function positionLeft() {
             tooltipX = triggerX - tooltipWidth - self.options.tooltipOffset;
             tooltipY = ( triggerY - ( tooltipHeight / 2 )) + ( triggerHeight / 2 );
 
+            self.addClass( tooltip, 'tooltip-left' );
+
+            if ( !tooltipAccentHeight ) {
+                tooltipAccentHeight = parseInt( tooltipAccent.offsetHeight );
+            }
+
             // If the tooltip extends beyond the right edge of the screen...
             if ( tooltipX < windowLeft ) {
+                self.removeClass( tooltip, 'tooltip-left' );
+
                 return positionTop();
             // ...or if it fits to the left of the trigger element
             } else {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.left = tooltipX + 'px';
+                tooltipAccent.style.top = (( tooltipHeight / 2 ) - ( tooltipAccentHeight / 2 )) + 'px';
             }
-
-            self.addClass( tooltip, 'tooltip-left' );
         }
 
         tooltip.style.position = 'fixed';
 
         tooltipWidth = parseInt( tooltip.offsetWidth );
         tooltipHeight = parseInt( tooltip.offsetHeight );
+        tooltipAccentHeight = parseInt( tooltipAccent.offsetHeight );
 
         // position the tooltip
         if ( placement === 'top' ) {

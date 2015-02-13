@@ -49,7 +49,7 @@ describe( 'tooltip markup', function() {
             tooltipTmp = isotipJS.open( trigger ),
             title = trigger.getAttribute( 'data-tooltip-title' );
 
-        expect( tooltipTmp.childNodes.length ).to.equal( 2 );
+        expect( tooltipTmp.childNodes.length ).to.equal( 3 );
         expect( tooltipTmp.childNodes[ 0 ].tagName ).to.equal( 'P' );
         expect( tooltipTmp.childNodes[ 0 ].innerText ).to.equal( title );
     });

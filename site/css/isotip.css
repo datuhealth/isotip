@@ -39,7 +39,56 @@
     transform: translate( 0, 0 );
 }
 
+.tooltip-accent {
+    position: absolute;
+    box-sizing: border-box;
+}
+
+.tooltip-top .tooltip-accent,
+.tooltip-bottom .tooltip-accent {
+    width: 12px;
+    height: 6px;
+}
+
+.tooltip-right .tooltip-accent,
+.tooltip-left .tooltip-accent {
+    width: 6px;
+    height: 12px;
+}
+
+.tooltip-top .tooltip-accent {
+    bottom: -6px;
+    border-top: 6px solid #3498DB;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+}
+
+.tooltip-right .tooltip-accent {
+    left: -6px;
+    border-top: 6px solid transparent;
+    border-right: 6px solid #3498DB;
+    border-bottom: 6px solid transparent;
+}
+
+.tooltip-bottom .tooltip-accent {
+    top: -6px;
+    border-bottom: 6px solid #3498DB;
+    border-right: 6px solid transparent;
+    border-left: 6px solid transparent;
+}
+
+.tooltip-left .tooltip-accent {
+    right: -6px;
+    border-top: 6px solid transparent;
+    border-left: 6px solid #3498DB;
+    border-bottom: 6px solid transparent;
+}
+
 .tooltip-content {
     margin: 0;
+    color: #FFF;
+}
+
+.tooltip a {
     color: #FFF;
 }

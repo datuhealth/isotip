@@ -112,15 +112,10 @@
             clear: both;
         }
 
-        .tooltip-group:after {
+        .tooltip-group div:after {
             content: '';
             display: table;
             clear: both;
-        }
-
-        .tooltip-position-left,
-        .tooltip-position-right {
-            margin: 20px 0;
         }
 
         .tooltip-position-left {
@@ -188,10 +183,19 @@
             <div>
                 <span class="tooltip-click button tooltip-position-top" data-tooltip-content="I'm on top" data-tooltip-placement="top">On top</span>
             </div>
-            <span class="tooltip-click button tooltip-position-left" data-tooltip-content="I'm on the right" data-tooltip-placement="right">On the right</span>
-            <span class="tooltip-click button tooltip-position-right" data-tooltip-content="I'm on the left" data-tooltip-placement="left">On the left</span>
+            <div>
+                <span class="tooltip-click button tooltip-position-left" data-tooltip-content="I'm on the right" data-tooltip-placement="right">On the right</span>
+                <span class="tooltip-click button tooltip-position-right" data-tooltip-content="I'm on the left" data-tooltip-placement="left">On the left</span>
+            </div>
+            <div>
+                <span class="tooltip-click button tooltip-position-left" data-tooltip-content="I'm on the left" data-tooltip-placement="left">On the left</span>
+                <span class="tooltip-click button tooltip-position-right" data-tooltip-content="I'm on the right" data-tooltip-placement="right">On the right</span>
+            </div>
             <div>
                 <span class="tooltip-click button tooltip-position-bottom" data-tooltip-content="I'm on bottom" data-tooltip-placement="bottom">On the bottom</span>
+            </div>
+            <div>
+                <span class="tooltip-click button tooltip-html" data-tooltip-content="<a href='http://google.com' target='_blank'>Google</a>" data-tooltip-html="true">Custom HTML content</span>
             </div>
         </div>
         <h2 class="h2" id="api">API</h2>
