@@ -159,7 +159,17 @@ module.exports = {
             var trigger = evt.target || evt.srcElement;
 
             // Logig for handling the mouseout event
-            function mouseoutHandler() {
+            function mouseoutHandler( moEvt ) {
+                if ( !moEvt ) {
+                    moEvt = window.event;
+                }
+
+                var moTrigger = evt.target || evt.srcElement;
+
+                if ( self.hasClass( moTrigger )) {
+                    return;
+                }
+
                 self.close( self.currentTooltip );
                 self.currentTooltip = undefined;
                 self.currentTrigger = undefined;
