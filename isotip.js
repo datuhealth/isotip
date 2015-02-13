@@ -22,10 +22,10 @@
  * - [x] Document the hell out of this
  * - [x] Add license.md
  * - [x] Move to it's own repo
- * - [ ] Add ability to cancel close when hovering on the tooltip
+ * - [X] Add ability to cancel close when hovering on the tooltip
  * - [ ] Add arrow
  * - [ ] Publish to npm
- * - [ ] Create demo page
+ * - [X] Create demo page
  * - [x] Allow this to work outside of node (compile with browserify)
  * - [ ] Test across browsers
  * - [x] Write tests
