@@ -3,6 +3,7 @@
   "version": "0.4.0",
   "description": "The javascript tooltip plugin no dependencies",
   "main": "tooltip.js",
+  "repository": "https://github.com/datuhealth/isotip",
   "scripts": {
     "test": "mkdir tmp; browserify test/index.js > tmp/index.js; gulp test; rm -r tmp",
     "dist": "browserify isotip.js -s isotip | derequire > dist/isotip.js; browserify isotip.js -s isotip | derequire | uglifyjs - > dist/isotip.min.js"
