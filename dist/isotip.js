@@ -43,7 +43,7 @@ module.exports = {
         placement: 'top',
         container: 'body',
         template: '<div class="tooltip" data-tooltip-target="tooltip"></div>',
-        removalDelay: 200,
+        removalDelay: 1200,
         tooltipOffset: 10,
         windowPadding: {
             top: 10,
@@ -124,37 +124,25 @@ module.exports = {
             if ( self.currentTooltip ) {
                 // ...unless the user is clicking on the tooltip itself...
                 if ( trigger === self.currentTooltip ) {
-
-                    if ( trigger === self.currentTooltip ) {
-                        console.log( 'clicked on tooltip' );
-                        return;
-                    }
+                    return;
                 // ...or if the user if clicking on the original trigger for that tooltip
                 } else if ( trigger === self.currentTrigger ) {
-                    console.log( 'clicked on trigger' );
                     self.close( self.currentTooltip );
-                    self.currentTooltip = undefined;
-                    self.currentTrigger = undefined;
 
                     return;
                 } else {
                     var children = self.currentTooltip.childNodes;
 
+                    // loop through the child elements in the tooltip to see if one of them has been clicked
                     for ( var childNode in children ) {
-                        console.log( 'looping through children' );
-
                         if ( children.hasOwnProperty( childNode )) {
                             if ( children[ childNode ] === trigger ) {
-                                console.log( 'child element' );
                                 return;
                             }
                         }
                     }
 
-                    console.log( 'clicked outside' );
                     self.close( self.currentTooltip );
-                    self.currentTooltip = undefined;
-                    self.currentTrigger = undefined;
                 }
             }
 
@@ -191,8 +179,6 @@ module.exports = {
                 }
 
                 self.close( self.currentTooltip );
-                self.currentTooltip = undefined;
-                self.currentTrigger = undefined;
 
                 // Remove self event to keep things clean
                 self.removeEventListener( trigger, 'mouseout', mouseoutHandler );
@@ -224,8 +210,6 @@ module.exports = {
             // Logic for handling the blur event
             function blurHandler() {
                 self.close( self.currentTooltip );
-                self.currentTooltip = undefined;
-                self.currentTrigger = undefined;
 
                 // Remove self event to keep things clean
                 self.removeEventListener( trigger, 'blur', blurHandler );
@@ -293,6 +277,7 @@ module.exports = {
             html = options.html || trigger.getAttribute( 'data-tooltip-html' ),
             placement = options.placement || trigger.getAttribute( 'data-tooltip-placement' ),
             container = options.container || trigger.getAttribute( 'data-tooltip-container' ),
+            preExistingTooltip = document.querySelector( '.tooltip' ),
             tooltip = this.createDOMElement( this.options.template ),
             tooltipTitle,
             tooltipContent;
@@ -337,7 +322,11 @@ module.exports = {
             this.currentContainer = document.querySelector( this.options.container );
         }
 
-        this.currentTooltip = this.currentContainer.appendChild( tooltip );
+        if ( preExistingTooltip ) {
+            this.currentTooltip = this.currentContainer.insertBefore( tooltip, preExistingTooltip );
+        } else {
+            this.currentTooltip = this.currentContainer.appendChild( tooltip );
+        }
 
         // Position the tooltip on the page
         this.positionTooltip( this.currentTooltip, trigger, placement );
@@ -362,6 +351,9 @@ module.exports = {
         }
 
         this.removeClass( tooltip, 'visible' );
+
+        this.currentTooltip = null;
+        this.currentTrigger = null;
 
         // We should assume that there will be some sort of tooltip animation with CSS or JS
         // So we can only remove the element after a certain period of time

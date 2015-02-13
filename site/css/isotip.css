@@ -3,36 +3,35 @@
     background-color: #3498DB;
     border-radius: 3.5px;
     opacity: 0.0;
-    -webkit-transition: -webkit-transform 200ms, opacity 200ms;
-    transition: -ms-transform 200ms, transform 200ms, opacity 200ms;
+    -webkit-transition: -webkit-transform 200ms;
+    transition: transform 200ms;
 }
 
 .tooltip-top {
-    -webkit-transform: translateY( 5px );
-    -ms-transform: translateY( 5px );
-    transform: translateY( 5px );
+    -webkit-transform: translate( 0, 5px );
+    -ms-transform: translate( 0, 5px );
+    transform: translate( 0, 5px );
 }
 
 .tooltip-right {
-    -webkit-transform: translateX( -5px );
-    -ms-transform: translateX( -5px );
-    transform: translateX( -5px );
+    -webkit-transform: translate( -5px, 0 );
+    -ms-transform: translate( -5px, 0 );
+    transform: translate( -5px, 0 );
 }
 
 .tooltip-bottom {
-    -webkit-transform: translateY( -5px );
-    -ms-transform: translateY( -5px );
-    transform: translateY( -5px );
+    -webkit-transform: translate( 0, -5px );
+    -ms-transform: translate( 0, -5px );
+    transform: translate( 0, -5px );
 }
 
 .tooltip-left {
-    -webkit-transform: translateX( 5px );
-    -ms-transform: translateX( 5px );
-    transform: translateX( 5px );
+    -webkit-transform: translate( 5px, 0 );
+    -ms-transform: translate( 5px, 0 );
+    transform: translate( 5px, 0 );
 }
 
 .tooltip.visible {
-    top: 0;
     opacity: 1.0;
     -webkit-transform: translate( 0, 0 );
     -ms-transform: translate( 0, 0 );
