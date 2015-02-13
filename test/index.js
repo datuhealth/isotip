@@ -358,6 +358,32 @@ describe( 'tooltip triggers', function() {
         }, isotipJS.options.removalDelay );
     });
 
+    it( 'should not close a tooltip on click on a child element in toolip', function() {
+        isotipJS.init({
+            placement: 'top',
+            windowPadding: {
+                top: 10
+            }
+        });
+
+        var trigger = document.querySelector( '.tooltip-default' ),
+            tooltipTmp,
+            tooltipContent;
+
+        eventFire( trigger, 'click' );
+
+        tooltipTmp = document.querySelector( '.tooltip' );
+        tooltipContent = tooltipTmp.querySelector( '.tooltip-content' );
+
+        eventFire( tooltipContent, 'click' );
+
+        window.setTimeout(function() {
+            tooltipTmp = document.querySelector( '.tooltip' );
+
+            expect( tooltipTmp ).to.exist;
+        }, isotipJS.options.removalDelay );
+    });
+
     it( 'should only remove the tooltip after the removal delay time', function() {
         isotipJS.init({
             placement: 'top',

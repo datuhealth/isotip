@@ -24,7 +24,7 @@
  * - [x] Add license.md
  * - [x] Move to it's own repo
  * - [X] Add ability to cancel close when hovering on the tooltip
- * - [ ] Add arrow
+ * - [x] Add arrow
  * - [ ] Publish to npm
  * - [X] Create demo page
  * - [x] Allow this to work outside of node (compile with browserify)
@@ -124,15 +124,34 @@ module.exports = {
             if ( self.currentTooltip ) {
                 // ...unless the user is clicking on the tooltip itself...
                 if ( trigger === self.currentTooltip ) {
-                    return;
+
+                    if ( trigger === self.currentTooltip ) {
+                        console.log( 'clicked on tooltip' );
+                        return;
+                    }
                 // ...or if the user if clicking on the original trigger for that tooltip
                 } else if ( trigger === self.currentTrigger ) {
+                    console.log( 'clicked on trigger' );
                     self.close( self.currentTooltip );
                     self.currentTooltip = undefined;
                     self.currentTrigger = undefined;
 
                     return;
                 } else {
+                    var children = self.currentTooltip.childNodes;
+
+                    for ( var childNode in children ) {
+                        console.log( 'looping through children' );
+
+                        if ( children.hasOwnProperty( childNode )) {
+                            if ( children[ childNode ] === trigger ) {
+                                console.log( 'child element' );
+                                return;
+                            }
+                        }
+                    }
+
+                    console.log( 'clicked outside' );
                     self.close( self.currentTooltip );
                     self.currentTooltip = undefined;
                     self.currentTrigger = undefined;

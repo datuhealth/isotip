@@ -132,6 +132,17 @@ module.exports = {
 
                     return;
                 } else {
+                    var children = self.currentTooltip.childNodes;
+
+                    // loop through the child elements in the tooltip to see if one of them has been clicked
+                    for ( var childNode in children ) {
+                        if ( children.hasOwnProperty( childNode )) {
+                            if ( children[ childNode ] === trigger ) {
+                                return;
+                            }
+                        }
+                    }
+
                     self.close( self.currentTooltip );
                     self.currentTooltip = undefined;
                     self.currentTrigger = undefined;
