@@ -91,3 +91,9 @@
 .tooltip a {
     color: #FFF;
 }
+
+.tooltip-click,
+.tooltip-hover,
+.tooltip-focus {
+    cursor: pointer;
+}

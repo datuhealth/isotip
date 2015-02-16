@@ -1,36 +1,4 @@
-/**
- * Notes
- *
- * GLOBAL
- * - Ability to set template with tooltips.template
- * - Provide automatic event binding for click, focus, and hover
- * - Add a visible class after the tooltip has been inserted into the DOM
- * - Append tooltip to the body
- * - Props to be passed in: html, placement, container, template
- *
- * INDIVIDUAL
- * - Provide ability to set position from top, right, bottom, left
- * - Add option to have inner content be HTML
- * - Props: content, html, title, placement, container
- *
- * TODO
- * - [x] Add timing delay option
- * - [x] Use timing delay function to remove a class from the tooltip
- * - [x] Add ability to pass in options to the open function for programatic opening
- * - [x] Loop through nested object in the copy of the options object in init
- * - [x] Add mouseover and focus events
- * - [x] Document the hell out of this
- * - [x] Add license.md
- * - [x] Move to it's own repo
- * - [X] Add ability to cancel close when hovering on the tooltip
- * - [x] Add arrow
- * - [ ] Publish to npm
- * - [X] Create demo page
- * - [x] Allow this to work outside of node (compile with browserify)
- * - [ ] Test across browsers
- * - [x] Write tests
- * - [ ] Publish 1.0.0
- */
+/* global DocumentTouch */
 
 module.exports = {
     /**
@@ -78,6 +46,11 @@ module.exports = {
         this.innerHTMLBug = !div.getElementsByTagName( 'link' ).length;
         div = undefined;
 
+        // touch event testing
+        if ( ( 'ontouchstart' in window ) || window.DocumentTouch && document instanceof DocumentTouch ) {
+            document.body.style.cursor = 'pointer';
+        }
+
         // Wrap map from jquery.
         this.map = {
             legend: [ 1, '<fieldset>', '</fieldset>' ],
@@ -96,11 +69,11 @@ module.exports = {
         // Copy over ininitialization options to options object
         if ( config instanceof Object ) {
             for ( var option in config ) {
-                if ( config.hasOwnProperty( option ) && this.options.hasOwnProperty( option )) {
+                if ( window.Object.hasOwnProperty.call( config, option ) && window.Object.hasOwnProperty.call( this.options, option )) {
                     // If it's a nested object, loop through that one too
                     if ( typeof config[ option ] === 'object' && !Array.isArray( config[ option ] )) {
                         for ( var subkey in config[ option ] ) {
-                            if ( config[ option ].hasOwnProperty( subkey ) && this.options[ option ].hasOwnProperty( subkey )) {
+                            if ( window.Object.hasOwnProperty.call( config[ option ], subkey ) && window.Object.hasOwnProperty.call( this.options[ option ], subkey )) {
                                 this.options[ option ][ subkey ] = config[ option ][ subkey ];
                             }
                         }
@@ -134,7 +107,7 @@ module.exports = {
 
                     // loop through the child elements in the tooltip to see if one of them has been clicked
                     for ( var childNode in children ) {
-                        if ( children.hasOwnProperty( childNode )) {
+                        if ( window.Object.hasOwnProperty( children, childNode )) {
                             if ( children[ childNode ] === trigger ) {
                                 return;
                             }
@@ -165,6 +138,32 @@ module.exports = {
 
             var trigger = evt.target || evt.srcElement;
 
+            // If the element the user is hovering over isn't supposed to trigger a tooltip, bail
+            if ( !self.hasClass( trigger, 'tooltip-hover' )) {
+                return;
+            }
+
+            // If there's already a tooltip open, close that one...
+            if ( self.currentTooltip ) {
+                // ...unless the user is hovering over the tooltip itself...
+                if ( trigger === self.currentTooltip ) {
+                    return;
+                } else {
+                    var children = self.currentTooltip.childNodes;
+
+                    // loop through the child elements in the tooltip to see if one of them has been hovered
+                    for ( var childNode in children ) {
+                        if ( window.Object.hasOwnProperty.call( children, childNode )) {
+                            if ( children[ childNode ] === trigger ) {
+                                return;
+                            }
+                        }
+                    }
+
+                    self.close( self.currentTooltip );
+                }
+            }
+
             // Logig for handling the mouseout event
             function mouseoutHandler( moEvt ) {
                 if ( !moEvt ) {
@@ -185,12 +184,10 @@ module.exports = {
                 return;
             }
 
-            // If the element the user is hovering over isn't supposed to trigger a tooltip, bail
-            if ( !self.hasClass( trigger, 'tooltip-hover' )) {
-                return;
-            }
-
             self.open( trigger );
+
+            // Store the trigger element
+            self.currentTrigger = trigger;
 
             // Add an event to remove the tooltip when the user moves their cursor away
             self.addEventListener( trigger, 'mouseout', mouseoutHandler );
@@ -206,6 +203,16 @@ module.exports = {
 
             var trigger = evt.target || evt.srcElement;
 
+            // If the element the user is focusing on isn't supposed to trigger a tooltip, bail
+            if ( !self.hasClass( trigger, 'tooltip-focus' )) {
+                return;
+            }
+
+            // If there's already a tooltip open, close that one...
+            if ( self.currentTooltip ) {
+                self.close( self.currentTooltip );
+            }
+
             // Logic for handling the blur event
             function blurHandler() {
                 self.close( self.currentTooltip );
@@ -216,15 +223,21 @@ module.exports = {
                 return;
             }
 
-            // If the element the user is focusing on isn't supposed to trigger a tooltip, bail
-            if ( !self.hasClass( trigger, 'tooltip-focus' )) {
-                return;
-            }
-
             self.open( trigger );
+
+            // Store the trigger element
+            self.currentTrigger = trigger;
 
             // Add an event to remove the tooltip when the user blurs from the element
             self.addEventListener( trigger, 'blur', blurHandler );
+
+            return;
+        }
+
+        function windowChangeHandler() {
+            if ( self.currentTooltip && self.currentTrigger ) {
+                self.positionTooltip( self.currentTooltip, self.currentTrigger );
+            }
 
             return;
         }
@@ -236,16 +249,13 @@ module.exports = {
         this.addEventListener( document.body, 'mouseover', mouseoverHandler );
 
         // Add the global focus handler
-        this.addEventListener( document.body, 'focusin', focusHandler );
+        this.addEventListener( document.body, 'focus', focusHandler, true );
 
-        // If a tooltip is open and the user scrolls, we need to keep up with them
-        this.addEventListener( window, 'scroll', function() {
-            if ( this.currentTooltip && this.currentTrigger ) {
-                this.positionTooltip( this.currentTooltip, this.currentTrigger );
-            }
+        // If a tooltip is open and the user scrolls, isotip needs to keep up with them
+        this.addEventListener( window, 'scroll', windowChangeHandler );
 
-            return;
-        }.bind( this ));
+        // If a tooltip is open and the user resizes the page, isotip needs to keep up with them
+        this.addEventListener( window, 'resize', windowChangeHandler );
     },
 
     /**
@@ -286,6 +296,8 @@ module.exports = {
             return;
         }
 
+        tooltip.appendChild( this.createDOMElement( '<div class="tooltip-accent"></div>' ));
+
         // If there's a title to be displayed, create the title element
         if ( title ) {
             tooltipTitle = this.createDOMElement( '<p class="tooltip-title">' + title + '</p>' );
@@ -308,15 +320,11 @@ module.exports = {
         tooltip.appendChild( tooltipContent );
 
         // If the a container was supplied and it's not also the body element, store that element
-        if ( container && container !== 'body' ) {
+        if ( container && container !== this.options.container ) {
             if ( typeof container === 'string' ) {
                 this.currentContainer = document.querySelector( container );
             }
         // If they initialized tooltips and set a different global container, store that element
-        } else if ( this.options.container !== 'body' ) {
-            if ( typeof this.options.container === 'string' ) {
-                this.currentContainer = document.querySelector( this.options.container );
-            }
         } else {
             this.currentContainer = document.querySelector( this.options.container );
         }
@@ -393,7 +401,7 @@ module.exports = {
         }
 
         var self = this,
-            tooltipAccent = tooltip.appendChild( this.createDOMElement( '<div class="tooltip-accent"></div>' )),
+            tooltipAccent = tooltip.querySelector( '.tooltip-accent' ),
             triggerWidth = parseInt( trigger.offsetWidth ),
             triggerHeight = parseInt( trigger.offsetHeight ),
             triggerPosition = trigger.getBoundingClientRect(),
@@ -431,14 +439,10 @@ module.exports = {
             if ( tooltipRight > windowRight ) {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.right = self.options.windowPadding.right + 'px';
+                tooltipAccent.style.left = 'auto';
                 tooltipAccent.style.right = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + 'px';
             // ...or if the tooltip extends beyond the top of the window...
             } else if ( tooltipY < windowTop ) {
-                // If the tooltip would never be shown on the page, don't bother
-                if ( triggerY + triggerHeight + tooltipHeight < windowTop ) {
-                    return;
-                }
-
                 self.removeClass( tooltip, 'tooltip-top' );
 
                 return positionBottom();
@@ -446,11 +450,15 @@ module.exports = {
             } else if ( tooltipX < self.options.windowPadding.left ) {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.left = self.options.windowPadding.left + 'px';
+                tooltipAccent.style.right = 'auto';
                 tooltipAccent.style.left = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + 'px';
             // ...or it fits inside the window
             } else {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.left = tooltipX + 'px';
+                tooltipAccent.style.top = '';
+                tooltipAccent.style.bottom = '';
+                tooltipAccent.style.right = '';
                 tooltipAccent.style.left = (( tooltipWidth / 2 ) - ( tooltipAccentWidth / 2 )) + 'px';
             }
         }
@@ -475,6 +483,9 @@ module.exports = {
             } else {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.left = tooltipX + 'px';
+                tooltipAccent.style.right = '';
+                tooltipAccent.style.bottom = '';
+                tooltipAccent.style.left = '';
                 tooltipAccent.style.top = (( tooltipHeight / 2 ) - ( tooltipAccentHeight / 2 )) + 'px';
             }
         }
@@ -495,14 +506,10 @@ module.exports = {
             if ( tooltipRight > windowRight ) {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.right = self.options.windowPadding.right + 'px';
+                tooltipAccent.style.left = 'auto';
                 tooltipAccent.style.right = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + 'px';
             // ...or if the tooltip extends beyond the top of the window...
             } else if ( tooltipBottom > windowBottom ) {
-                // If the tooltip would never be shown on the page, don't bother
-                if ( triggerY - tooltipHeight > windowBottom ) {
-                    return;
-                }
-
                 self.removeClass( tooltip, 'tooltip-bottom' );
 
                 return positionTop();
@@ -510,11 +517,15 @@ module.exports = {
             } else if ( tooltipX < self.options.windowPadding.left ) {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.left = self.options.windowPadding.left + 'px';
+                tooltipAccent.style.right = 'auto';
                 tooltipAccent.style.left = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + 'px';
             // ...or it fits inside the window
             } else {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.left = tooltipX + 'px';
+                tooltipAccent.style.top = '';
+                tooltipAccent.style.bottom = '';
+                tooltipAccent.style.right = '';
                 tooltipAccent.style.left = (( tooltipWidth / 2 ) - ( tooltipAccentWidth / 2 )) + 'px';
             }
         }
@@ -538,6 +549,9 @@ module.exports = {
             } else {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.left = tooltipX + 'px';
+                tooltipAccent.style.right = '';
+                tooltipAccent.style.bottom = '';
+                tooltipAccent.style.left = '';
                 tooltipAccent.style.top = (( tooltipHeight / 2 ) - ( tooltipAccentHeight / 2 )) + 'px';
             }
         }
@@ -546,7 +560,14 @@ module.exports = {
 
         tooltipWidth = parseInt( tooltip.offsetWidth );
         tooltipHeight = parseInt( tooltip.offsetHeight );
+        tooltipAccentWidth = parseInt( tooltipAccent.offsetWidth );
         tooltipAccentHeight = parseInt( tooltipAccent.offsetHeight );
+
+        // clear any classes set before hand
+        self.removeClass( tooltip, 'tooltip-top' );
+        self.removeClass( tooltip, 'tooltip-right' );
+        self.removeClass( tooltip, 'tooltip-bottom' );
+        self.removeClass( tooltip, 'tooltip-left' );
 
         // position the tooltip
         if ( placement === 'top' ) {
@@ -590,6 +611,10 @@ module.exports = {
 
             return el;
         } else {
+            if ( eventName === 'focus' ) {
+                eventName = 'focusin';
+            }
+
             el.attachEvent( 'on' + eventName, function() {
                 handler.call( el );
             });
@@ -619,6 +644,10 @@ module.exports = {
         if ( el.removeEventListener ) {
             el.removeEventListener( eventName, handler, useCapture );
         } else {
+            if ( eventName === 'focus' ) {
+                eventName = 'focusin';
+            }
+
             el.detachEvent( 'on' + eventName, function() {
                 handler.call( el );
             });

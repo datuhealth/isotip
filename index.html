@@ -82,9 +82,13 @@
         .button {
             display: inline-block;
             padding: 10px 15px;
+            max-width: 150px;
             font-weight: bold;
+            font-size: 16px;
+            line-height: 1.4;
             color: #E67E22;
             border: 2px solid #E67E22;
+            cursor: pointer;
         }
 
         .badges {
@@ -102,6 +106,10 @@
 
         .default-tooltip {
             margin-bottom: 40px;
+        }
+
+        .default-tooltip .button {
+            margin-bottom: 10px;
         }
 
         .tooltip-group {
@@ -176,6 +184,8 @@
         </div>
         <div class="center-text default-tooltip">
             <span class="tooltip-click button" data-tooltip-content="I'm the default tooltip">Click me</span>
+            <span class="tooltip-hover button" data-tooltip-content="I'm the default tooltip">Hover over me</span>
+            <input class="tooltip-focus button" data-tooltip-content="I'm the default tooltip" value="Focus on me">
         </div>
         <p>Positioning a tooltip is as simple as adding an attribute. You can position a tooltip to the top, right, bottom, or left of an element. By default, tooltips appear above an element.</p>
         <p>Additionally, if a tooltip is so large that it would run off-screen, Isotip will re-position it to a better position. Scrolling with a tooltip open will also keep it in position, and re-adjust if scrolling would cause it to move off-screen.</p>

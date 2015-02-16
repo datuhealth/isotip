@@ -2,20 +2,19 @@ var gulp = require( 'gulp' ),
     logwarn = require( 'gulp-logwarn' ),
     jshint = require( 'gulp-jshint' ),
     jscs = require( 'gulp-jscs' ),
-    mocha = require( 'gulp-mocha-phantomjs' ),
-    browserify = require( 'browserify' );
+    mocha = require( 'gulp-mocha-phantomjs' );
 
 gulp.task( 'jscs', function scriptsJSCSTask() {
     'use strict';
 
-    return gulp.src( './ampersand-floatinglabel-input-view.js' )
+    return gulp.src( './isotip.js' )
         .pipe( jscs());
 });
 
 gulp.task( 'jshint', function scriptsJSHintTask() {
     'use strict';
 
-    return gulp.src( './ampersand-floatinglabel-input-view.js' )
+    return gulp.src( './isotip.js' )
         .pipe( jshint())
         .pipe( jshint.reporter( 'default' ))
         .pipe( jshint.reporter( 'fail' ));
@@ -24,7 +23,7 @@ gulp.task( 'jshint', function scriptsJSHintTask() {
 gulp.task( 'logwarn', function scriptsLogwarnTask() {
     'use strict';
 
-    return gulp.src( './ampersand-floatinglabel-input-view.js' )
+    return gulp.src( './isotip.js' )
         .pipe( logwarn([
             'console.log',
             'console.error',

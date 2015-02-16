@@ -23,13 +23,23 @@ describe( 'tooltip markup', function() {
         expect( tooltipTmp.classList.contains( 'tooltip' )).to.equal( true );
     });
 
+    it( 'should have a tooltip accent element', function() {
+        isotipJS.init();
+
+        var trigger = document.querySelector( '.tooltip-click' ),
+            tooltipTmp = isotipJS.open( trigger );
+
+        expect( tooltipTmp.childNodes[ 0 ].tagName ).to.equal( 'DIV' );
+        expect( tooltipTmp.childNodes[ 0 ].classList.contains( 'tooltip-accent' )).to.equal( true );
+    });
+
     it( 'should have a p tag containing the content', function() {
         isotipJS.init();
 
         var trigger = document.querySelector( '.tooltip-click' ),
             tooltipTmp = isotipJS.open( trigger );
 
-        expect( tooltipTmp.childNodes[ 0 ].tagName ).to.equal( 'P' );
+        expect( tooltipTmp.childNodes[ 1 ].tagName ).to.equal( 'P' );
     });
 
     it( 'should have content matching the data-tooltip-content attribute', function() {
@@ -39,7 +49,7 @@ describe( 'tooltip markup', function() {
             tooltipTmp = isotipJS.open( trigger ),
             content = trigger.getAttribute( 'data-tooltip-content' );
 
-        expect( tooltipTmp.childNodes[ 0 ].innerText ).to.equal( content );
+        expect( tooltipTmp.childNodes[ 1 ].innerText ).to.equal( content );
     });
 
     it( 'should have a title if specified', function() {
@@ -50,8 +60,8 @@ describe( 'tooltip markup', function() {
             title = trigger.getAttribute( 'data-tooltip-title' );
 
         expect( tooltipTmp.childNodes.length ).to.equal( 3 );
-        expect( tooltipTmp.childNodes[ 0 ].tagName ).to.equal( 'P' );
-        expect( tooltipTmp.childNodes[ 0 ].innerText ).to.equal( title );
+        expect( tooltipTmp.childNodes[ 1 ].tagName ).to.equal( 'P' );
+        expect( tooltipTmp.childNodes[ 1 ].innerText ).to.equal( title );
     });
 
     it( 'should use custom markup for the tooltip container if specified', function() {
@@ -72,8 +82,8 @@ describe( 'tooltip markup', function() {
         var trigger = document.querySelector( '.tooltip-html' ),
             tooltipTmp = isotipJS.open( trigger );
 
-        expect( tooltipTmp.childNodes[ 0 ].tagName ).to.equal( 'SPAN' );
-        expect( tooltipTmp.childNodes[ 0 ] instanceof Element ).to.equal( true );
+        expect( tooltipTmp.childNodes[ 1 ].tagName ).to.equal( 'SPAN' );
+        expect( tooltipTmp.childNodes[ 1 ] instanceof Element ).to.equal( true );
     });
 });
 
@@ -226,7 +236,7 @@ describe( 'tooltip position', function() {
         expect( parseInt( tooltipTmp.style.left )).to.be.above( isotipJS.options.windowPadding.left );
     });
 
-    it( 'should keep up with the trigger as the page scrolls', function() {
+    it( 'should keep up with a click trigger as the page scrolls', function() {
         isotipJS.init({
             placement: 'top',
             windowPadding: {
@@ -249,7 +259,7 @@ describe( 'tooltip position', function() {
         expect( parseInt( tooltipTmp.style.top + tooltipTmp.offsetHeight )).to.be.below( triggerY );
     });
 
-    it( 'should reposition the tooltip as needed when the page scrolls', function() {
+    it( 'should keep up with a focus trigger as the page scrolls', function() {
         isotipJS.init({
             placement: 'top',
             windowPadding: {
@@ -257,19 +267,19 @@ describe( 'tooltip position', function() {
             }
         });
 
-        var trigger = document.querySelector( '.tooltip-default' ),
+        var trigger = document.querySelector( '.tooltip-focus' ),
             tooltipTmp = isotipJS.open( trigger ),
             triggerY = trigger.getBoundingClientRect().top;
 
         expect( parseInt( tooltipTmp.style.top + tooltipTmp.offsetHeight )).to.be.below( triggerY );
 
-        document.body.scrollTop = 100;
+        document.body.scrollTop = 40;
 
-        triggerY = trigger.getBoundingClientRect().top + trigger.offsetHeight;
+        triggerY = trigger.getBoundingClientRect().top;
 
         isotipJS.positionTooltip( tooltipTmp, trigger );
 
-        expect( parseInt( tooltipTmp.style.top )).to.be.above( triggerY );
+        expect( parseInt( tooltipTmp.style.top + tooltipTmp.offsetHeight )).to.be.below( triggerY );
     });
 });
 
@@ -418,7 +428,7 @@ describe( 'tooltip triggers', function() {
             }
         });
 
-        var trigger = document.querySelector( '.tooltip-default' ),
+        var trigger = document.querySelector( '.tooltip-hover' ),
             tooltipTmp;
 
         eventFire( trigger, 'mouseover' );
@@ -436,7 +446,7 @@ describe( 'tooltip triggers', function() {
             }
         });
 
-        var trigger = document.querySelector( '.tooltip-default' ),
+        var trigger = document.querySelector( '.tooltip-hover' ),
             tooltipTmp;
 
         eventFire( trigger, 'mouseover' );
@@ -457,7 +467,7 @@ describe( 'tooltip triggers', function() {
             }
         });
 
-        var trigger = document.querySelector( '.tooltip-default' ),
+        var trigger = document.querySelector( '.tooltip-hover' ),
             tooltipTmp;
 
         eventFire( trigger, 'mouseover' );
@@ -479,7 +489,7 @@ describe( 'tooltip triggers', function() {
             }
         });
 
-        var trigger = document.querySelector( '.tooltip-default' ),
+        var trigger = document.querySelector( '.tooltip-focus' ),
             tooltipTmp;
 
         eventFire( trigger, 'focus' );
@@ -497,7 +507,7 @@ describe( 'tooltip triggers', function() {
             }
         });
 
-        var trigger = document.querySelector( '.tooltip-default' ),
+        var trigger = document.querySelector( '.tooltip-focus' ),
             tooltipTmp;
 
         eventFire( trigger, 'focus' );
