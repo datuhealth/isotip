@@ -1,0 +1,22 @@
+{
+  "name": "isotip",
+  "version": "1.0.0",
+  "homepage": "https://datuhealth.github.io/isotip/",
+  "authors": [
+    "Mike Engel <mike.engel@datuhealth.com>"
+  ],
+  "description": "The javascript tooltip plugin with no dependencies",
+  "main": "dist/isotip.js",
+  "moduleType": [
+    "amd",
+    "globals",
+    "node"
+  ],
+  "keywords": [
+    "isotip",
+    "tooltip",
+    "javascript",
+    "utility"
+  ],
+  "license": "Apache 2.0"
+}
