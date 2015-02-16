@@ -118,17 +118,9 @@ The positionTooltip method will re-evaluate the position of a tooltip in relatio
 isotip.positionTooltip( '.tooltip', '.tooltip-click', 'left' );
 ```
 
-## Todo
-
-- [ ] Test in other browsers
-- [x] Setup demo page
-- [x] Provide documentation of API
-- [x] Provide standalone version for use without a build tool
-- [x] Provide a basic CSS sheet for styling the tooltips
-- [ ] Add accent (arrow) element to tooltip and adjust based on position
-
 ## Changelog
 
+- 1.0.0 - Fixed many browser bugs and tested in many browsers
 - 0.4.0 - Added API documentation and finished the basic demo page. More examples will be added to the demo page later
 - 0.3.0 - Added a basic demo page. It still needs desktop styles. Also added a couple extra classes on the tooltip for CSS purposes.
 - 0.2.0 - IE8 compatability. Added better event handling so that IE8 doesn't throw errors.
