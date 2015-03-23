@@ -2,7 +2,7 @@
 
 > The javascript tooltip plugin without any dependencies
 
-https://travis-ci.org/datuhealth/isotip.svg?branch=master
+[![Build Status](https://travis-ci.org/datuhealth/isotip.svg?branch=master)](https://travis-ci.org/datuhealth/isotip)
 
 Isotip is a small (3kb minified and gzipped) and minimal node module to be included in your browserify (or similar) package for use in the browser. It's only dependencies are ES5 and a browser.
 
