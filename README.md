@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/datuhealth/isotip.svg?branch=master)](https://travis-ci.org/datuhealth/isotip)
 
-Isotip is a small (3kb minified and gzipped) and minimal node module to be included in your browserify (or similar) package for use in the browser. It's only dependencies are ES5 and a browser.
+Isotip is a small (3kb minified and gzipped) and minimal node module to be included in your browserify (or similar) package for use in the browser. Its only dependencies are ES5 and a browser.
 
 It provides a minimal API to configure markup, location, offset, delays, and more. See the [API](#api) below for more details.
 
@@ -72,7 +72,7 @@ Alternatively, programattic creation and destruction of tooltips is available.
 
 ### **`init( config )`**
 
-The init method provides automatic event binding for tooltips. It sets up delegated event listeners for `.tooltip-click`, `.tooltip-hover`, and `.tooltip-focus` for click, mouseover, and focus events, respectively. You can pass in an optional config object to overwrite any of the default options.
+The init method provides automatic event binding for tooltips. It sets up delegated event listeners for `.tooltip-click`, `.tooltip-hover`, and `.tooltip-focus` for click, mouseover, and focus events respectively. You can pass in an optional config object to overwrite any of the default options.
 
 ```javascript
 var options = {
