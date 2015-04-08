@@ -408,8 +408,8 @@ module.exports = {
             triggerX = triggerPosition.left,
             triggerY = triggerPosition.top,
             windowTop = this.options.windowPadding.top,
-            windowRight = window.innerWidth - this.options.windowPadding.right,
-            windowBottom = window.innerHeight - this.options.windowPadding.bottom,
+            windowRight = ( window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth ) - this.options.windowPadding.right,
+            windowBottom = ( window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight ) - this.options.windowPadding.bottom,
             windowLeft = this.options.windowPadding.left,
             tooltipX,
             tooltipY,
@@ -440,7 +440,7 @@ module.exports = {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.right = self.options.windowPadding.right + 'px';
                 tooltipAccent.style.left = 'auto';
-                tooltipAccent.style.right = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + 'px';
+                tooltipAccent.style.right = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + ( windowRight - triggerX - triggerWidth ) + 'px';
             // ...or if the tooltip extends beyond the top of the window...
             } else if ( tooltipY < windowTop ) {
                 self.removeClass( tooltip, 'tooltip-top' );
@@ -451,7 +451,7 @@ module.exports = {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.left = self.options.windowPadding.left + 'px';
                 tooltipAccent.style.right = 'auto';
-                tooltipAccent.style.left = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + 'px';
+                tooltipAccent.style.left = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + ( triggerX - windowLeft ) + 'px';
             // ...or it fits inside the window
             } else {
                 tooltip.style.top = tooltipY + 'px';
@@ -507,7 +507,7 @@ module.exports = {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.right = self.options.windowPadding.right + 'px';
                 tooltipAccent.style.left = 'auto';
-                tooltipAccent.style.right = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + 'px';
+                tooltipAccent.style.right = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + ( windowRight - triggerX - triggerWidth ) + 'px';
             // ...or if the tooltip extends beyond the top of the window...
             } else if ( tooltipBottom > windowBottom ) {
                 self.removeClass( tooltip, 'tooltip-bottom' );
@@ -518,7 +518,7 @@ module.exports = {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.left = self.options.windowPadding.left + 'px';
                 tooltipAccent.style.right = 'auto';
-                tooltipAccent.style.left = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + 'px';
+                tooltipAccent.style.left = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + ( triggerX - windowLeft ) + 'px';
             // ...or it fits inside the window
             } else {
                 tooltip.style.top = tooltipY + 'px';
