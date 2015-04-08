@@ -121,8 +121,7 @@ describe( 'tooltip position', function() {
             tooltipTmp = isotipJS.open( trigger ),
             triggerY = trigger.getBoundingClientRect().top;
 
-        expect( parseInt( tooltipTmp.style.top )).to.be.below( triggerY );
-        expect( parseInt( tooltipTmp.style.top ) + tooltipTmp.offsetHeight ).to.equal( triggerY - isotipJS.options.tooltipOffset );
+        expect( parseInt( tooltipTmp.style.bottom )).to.equal( window.innerHeight - triggerY + isotipJS.options.tooltipOffset );
     });
 
     it( 'should be on the right if specified', function() {
@@ -202,7 +201,7 @@ describe( 'tooltip position', function() {
             triggerX = trigger.getBoundingClientRect().left + trigger.offsetWidth;
 
         expect( parseInt( tooltipTmp.style.left )).to.be.below( triggerX );
-        expect( parseInt( tooltipTmp.style.top )).to.be.below( triggerY );
+        expect( parseInt( tooltipTmp.style.bottom )).to.equal( window.innerHeight - triggerY + isotipJS.options.tooltipOffset );
     });
 
     it( 'should be on the top if there isn\'t enough room on the bottom', function() {
@@ -217,10 +216,10 @@ describe( 'tooltip position', function() {
             tooltipTmp = isotipJS.open( trigger ),
             triggerY = trigger.getBoundingClientRect().top + trigger.offsetHeight;
 
-        expect( parseInt( tooltipTmp.style.top )).to.be.below( triggerY );
+        expect( parseInt( tooltipTmp.style.bottom )).to.be.above( window.innerHeight - triggerY + isotipJS.options.tooltipOffset );
     });
 
-    it( 'should be on the top if there isn\'t enough room on the top', function() {
+    it( 'should be on the bottom if there isn\'t enough room on the top', function() {
         isotipJS.init({
             placement: 'top',
             windowPadding: {
@@ -228,11 +227,11 @@ describe( 'tooltip position', function() {
             }
         });
 
-        var trigger = document.querySelector( '.tooltip-left-edge' ),
+        var trigger = document.querySelector( '.tooltip-top-edge' ),
             tooltipTmp = isotipJS.open( trigger ),
             triggerY = trigger.getBoundingClientRect().top;
 
-        expect( parseInt( tooltipTmp.style.top + tooltipTmp.offsetHeight )).to.be.below( triggerY );
+        expect( parseInt( tooltipTmp.style.top + tooltipTmp.offsetHeight )).to.be.above( triggerY );
         expect( parseInt( tooltipTmp.style.left )).to.be.above( isotipJS.options.windowPadding.left );
     });
 
@@ -248,7 +247,7 @@ describe( 'tooltip position', function() {
             tooltipTmp = isotipJS.open( trigger ),
             triggerY = trigger.getBoundingClientRect().top;
 
-        expect( parseInt( tooltipTmp.style.top + tooltipTmp.offsetHeight )).to.be.below( triggerY );
+        expect( parseInt( tooltipTmp.style.bottom )).to.equal( window.innerHeight - triggerY + isotipJS.options.tooltipOffset );
 
         document.body.scrollTop = 40;
 
@@ -256,7 +255,7 @@ describe( 'tooltip position', function() {
 
         isotipJS.positionTooltip( tooltipTmp, trigger );
 
-        expect( parseInt( tooltipTmp.style.top + tooltipTmp.offsetHeight )).to.be.below( triggerY );
+        expect( parseInt( tooltipTmp.style.bottom )).to.equal( window.innerHeight - triggerY + isotipJS.options.tooltipOffset );
     });
 
     it( 'should keep up with a focus trigger as the page scrolls', function() {
@@ -271,7 +270,7 @@ describe( 'tooltip position', function() {
             tooltipTmp = isotipJS.open( trigger ),
             triggerY = trigger.getBoundingClientRect().top;
 
-        expect( parseInt( tooltipTmp.style.top + tooltipTmp.offsetHeight )).to.be.below( triggerY );
+        expect( parseInt( tooltipTmp.style.bottom )).to.equal( window.innerHeight - triggerY + isotipJS.options.tooltipOffset );
 
         document.body.scrollTop = 40;
 
@@ -279,7 +278,7 @@ describe( 'tooltip position', function() {
 
         isotipJS.positionTooltip( tooltipTmp, trigger );
 
-        expect( parseInt( tooltipTmp.style.top + tooltipTmp.offsetHeight )).to.be.below( triggerY );
+        expect( parseInt( tooltipTmp.style.bottom )).to.equal( window.innerHeight - triggerY + isotipJS.options.tooltipOffset );
     });
 });
 

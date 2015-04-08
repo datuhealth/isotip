@@ -436,9 +436,14 @@ module.exports = {
                 tooltipAccentWidth = parseInt( tooltipAccent.offsetWidth );
             }
 
+            if ( !tooltipAccentHeight ) {
+                tooltipAccentHeight = parseInt( tooltipAccent.offsetHeight );
+            }
+
             // If the tooltip extends beyond the right edge of the window...
             if ( tooltipRight > windowRight ) {
-                tooltip.style.top = tooltipY + 'px';
+                tooltip.style.top = 'auto';
+                tooltip.style.bottom = ( windowBottom + self.options.windowPadding.bottom - triggerY + self.options.tooltipOffset ) + 'px';
                 tooltip.style.right = self.options.windowPadding.right + 'px';
                 tooltipAccent.style.left = 'auto';
                 tooltipAccent.style.right = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + ( windowRight - triggerX - triggerWidth ) + 'px';
@@ -449,13 +454,15 @@ module.exports = {
                 return positionBottom();
             // ...or if the tooltip extends beyond the left edge of the window...
             } else if ( tooltipX < self.options.windowPadding.left ) {
-                tooltip.style.top = tooltipY + 'px';
+                tooltip.style.top = 'auto';
+                tooltip.style.bottom = ( windowBottom + self.options.windowPadding.bottom - triggerY + self.options.tooltipOffset ) + 'px';
                 tooltip.style.left = self.options.windowPadding.left + 'px';
                 tooltipAccent.style.right = 'auto';
                 tooltipAccent.style.left = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + ( triggerX - windowLeft ) + 'px';
             // ...or it fits inside the window
             } else {
-                tooltip.style.top = tooltipY + 'px';
+                tooltip.style.top = 'auto';
+                tooltip.style.bottom = ( windowBottom + self.options.windowPadding.bottom - triggerY + self.options.tooltipOffset ) + 'px';
                 tooltip.style.left = tooltipX + 'px';
                 tooltipAccent.style.top = '';
                 tooltipAccent.style.bottom = '';
@@ -523,6 +530,7 @@ module.exports = {
             // ...or it fits inside the window
             } else {
                 tooltip.style.top = tooltipY + 'px';
+                tooltip.style.bottom = 'auto';
                 tooltip.style.left = tooltipX + 'px';
                 tooltipAccent.style.top = '';
                 tooltipAccent.style.bottom = '';
