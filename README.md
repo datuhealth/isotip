@@ -126,6 +126,7 @@ isotip.positionTooltip( '.tooltip', '.tooltip-click', 'left' );
 
 ## Changelog
 
+- 1.1.1 - Fixes a typo in package.json
 - 1.1.0 - Fixed a bug where tooltips on far left or right were not positioned correctly. Top positioning has also been improved.
 - 1.0.0 - Fixed many browser bugs and tested in many browsers
 - 0.4.0 - Added API documentation and finished the basic demo page. More examples will be added to the demo page later
