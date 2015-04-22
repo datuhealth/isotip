@@ -10,7 +10,7 @@ module.exports = {
         placement: 'top',
         container: 'body',
         template: '<div class="tooltip" data-tooltip-target="tooltip"></div>',
-        removalDelay: 1200,
+        removalDelay: 200,
         tooltipOffset: 10,
         windowPadding: {
             top: 10,
