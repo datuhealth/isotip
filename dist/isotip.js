@@ -10,6 +10,7 @@ module.exports = {
         html: false,
         placement: 'top',
         container: 'body',
+        scrollcontainer: window,
         template: '<div class="tooltip" data-tooltip-target="tooltip"></div>',
         removalDelay: 200,
         tooltipOffset: 10,
@@ -252,9 +253,6 @@ module.exports = {
         // Add the global focus handler
         this.addEventListener( document.body, 'focus', focusHandler, true );
 
-        // If a tooltip is open and the user scrolls, isotip needs to keep up with them
-        this.addEventListener( window, 'scroll', windowChangeHandler );
-
         // If a tooltip is open and the user resizes the page, isotip needs to keep up with them
         this.addEventListener( window, 'resize', windowChangeHandler );
     },
@@ -270,6 +268,15 @@ module.exports = {
      */
     open: function openTooltip( trigger, options ) {
         'use strict';
+        var self = this;
+
+        function windowChangeHandler() {
+            if ( self.currentTooltip && self.currentTrigger ) {
+                self.positionTooltip( self.currentTooltip, self.currentTrigger );
+            }
+
+            return;
+        }
 
         // We need a DOM element, so make it one if it isn't already
         if ( typeof trigger === 'string' ) {
@@ -287,6 +294,7 @@ module.exports = {
             html = options.html || trigger.getAttribute( 'data-tooltip-html' ),
             placement = options.placement || trigger.getAttribute( 'data-tooltip-placement' ),
             container = options.container || trigger.getAttribute( 'data-tooltip-container' ),
+            scrollcontainer = options.scrollcontainer || trigger.getAttribute( 'data-tooltip-scrollcontainer' ),
             preExistingTooltip = document.querySelector( '.tooltip' ),
             tooltip = this.createDOMElement( this.options.template ),
             tooltipTitle,
@@ -329,12 +337,25 @@ module.exports = {
         } else {
             this.currentContainer = document.querySelector( this.options.container );
         }
+        // If a scrollcontainer was supplied and it's not also the body element, store that element
+        if ( scrollcontainer && scrollcontainer !== this.options.scrollcontainer ) {
+            if ( typeof scrollcontainer === 'string' ) {
+                this.currentScrollContainer = document.querySelector( scrollcontainer );
+            }
+
+        // If they initialized tooltips and set a different global scrollcontainer, store that element
+        } else {
+            this.currentScrollContainer = this.options.scrollcontainer ;
+        }
 
         if ( preExistingTooltip ) {
             this.currentTooltip = this.currentContainer.insertBefore( tooltip, preExistingTooltip );
         } else {
             this.currentTooltip = this.currentContainer.appendChild( tooltip );
         }
+
+        // If a tooltip is open and the user scrolls, isotip needs to keep up with them
+        self.addEventListener( this.currentScrollContainer, 'scroll', windowChangeHandler.bind(self) );
 
         // Position the tooltip on the page
         this.positionTooltip( this.currentTooltip, trigger, placement );
