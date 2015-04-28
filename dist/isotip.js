@@ -343,7 +343,7 @@ module.exports = {
         }
 
         if ( preExistingTooltip ) {
-            this.currentTooltip = this.currentContainer.insertBefore( tooltip, preExistingTooltip );
+            this.currentTooltip = preExistingTooltip.parentNode.insertBefore( tooltip, preExistingTooltip );
         } else {
             this.currentTooltip = this.currentContainer.appendChild( tooltip );
         }
@@ -391,7 +391,9 @@ module.exports = {
             if ( tooltip && tooltip instanceof Element ) {
                 tooltip.parentNode.removeChild( tooltip );
             } else {
-                document.body.removeChild( document.body.querySelector( '.tooltip' ));
+                tooltip = document.body.querySelector( '.tooltip' );
+
+                tooltip.parentNode.removeChild( tooltip );
             }
         }, this.options.removalDelay );
     },
@@ -710,6 +712,10 @@ module.exports = {
 
         if ( !useCapture ) {
             useCapture = false;
+        }
+
+        if ( !el ) {
+            return;
         }
 
         if ( el.removeEventListener ) {
