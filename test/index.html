@@ -46,6 +46,11 @@
         <div>
             <span class="tooltip-click tooltip-left-edge" data-tooltip-content="Test content" data-tooltip-placement="left">This is a tooltip too far to the left</span>
         </div>
+        <div class="scroll-container" style="overflow:scroll;height:300px;">
+            <div class="tooltip-container" style="height: 600px;">
+                <span class="tooltip-click button tooltip-scroll-container" style="margin-top: 100px;display:block;" data-tooltip-content="I'm In a scrolling container!" data-tooltip-placement="top" data-tooltip-container=".scroll-container" data-tooltip-scrollContainer=".scroll-container">In a scrolling container</span>
+            </div>
+        </div>
     </div>
     <script src="../node_modules/mocha/mocha.js"></script>
     <script src="../node_modules/chai/chai.js"></script>

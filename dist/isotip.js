@@ -556,8 +556,6 @@ module.exports = {
             tooltipRight = tooltipX + tooltipWidth;
             tooltipBottom = tooltipY + tooltipHeight;
 
-            console.log( triggerY, triggerHeight, tooltipY );
-
             self.addClass( tooltip, 'tooltip-bottom' );
 
             if ( !tooltipAccentWidth ) {
@@ -589,7 +587,6 @@ module.exports = {
                 tooltipAccent.style.left = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + ( triggerX - windowLeft ) + 'px';
             // ...or it fits inside the window
             } else {
-                console.log( 'pure bottom' );
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.bottom = 'auto';
                 tooltip.style.left = tooltipX + 'px';
