@@ -485,6 +485,12 @@ module.exports = {
                 tooltipAccentHeight = parseInt( tooltipAccent.offsetHeight );
             }
 
+            if ( triggerY + triggerHeight <= containerTop ) {
+                if ( self.hasClass( tooltip, 'visible' )) {
+                    self.removeClass( tooltip, 'visible' );
+                }
+            }
+
             // If the tooltip extends beyond the right edge of the window...
             if ( tooltipRight > windowRight || tooltipRight > containerRight ) {
                 tooltip.style.top = 'auto';
@@ -553,6 +559,12 @@ module.exports = {
 
             if ( !tooltipAccentWidth ) {
                 tooltipAccentWidth = parseInt( tooltipAccent.offsetWidth );
+            }
+
+            if ( triggerY >= containerBottom ) {
+                if ( self.hasClass( tooltip, 'visible' )) {
+                    self.removeClass( tooltip, 'visible' );
+                }
             }
 
             // If the tooltip extends beyond the right edge of the window...
@@ -635,9 +647,13 @@ module.exports = {
         }
 
         // try and give the tooltip enough time to position itself
-        window.setTimeout(function() {
-            self.addClass( tooltip, 'visible' );
-        }, 50 );
+        if ( !self.hasClass( tooltip, 'visible' ) && ( containerTop === undefined || ( triggerY + triggerHeight > containerTop && triggerY < containerBottom ))) {
+            window.setTimeout(function() {
+                self.addClass( tooltip, 'visible' );
+            }, 50 );
+        } else if ( triggerY + triggerHeight <= containerTop || triggerY >= containerBottom ) {
+            self.removeClass( tooltip, 'visible' );
+        }
 
         return tooltip;
     },
