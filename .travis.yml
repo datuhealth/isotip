@@ -4,12 +4,6 @@ node_js:
 - 0.10.36
 - 0.12.0
 - iojs
-- iojs-v1.0.0
-- iojs-v1.1.0
-- iojs-v1.2.0
-- iojs-v1.3.0
-- iojs-v1.4.1
-- iojs-v1.5.0
 env:
   global:
   - secure: Cjq1pqqagASeqFN7/C8G1c5L7EnHVQ1elL7JuyLVWbRujnB1WYt0A1CodFiSUvTUZxu19P8sNLVeSHf4DoMYPytTbp3d5gl1T+1yY9uSDrJZYLTJjx0HGMtkrvkE1ZD6IYnkaq/e3N8AYEjx72BHcymOkaxXsR8YyNbzTl34fc8=

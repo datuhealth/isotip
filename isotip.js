@@ -9,6 +9,7 @@ module.exports = {
         html: false,
         placement: 'top',
         container: 'body',
+        scrollContainer: window,
         template: '<div class="tooltip" data-tooltip-target="tooltip"></div>',
         removalDelay: 200,
         tooltipOffset: 10,
@@ -234,13 +235,13 @@ module.exports = {
             return;
         }
 
-        function windowChangeHandler() {
+        this.windowChangeHandler = function windowChangeHandler() {
             if ( self.currentTooltip && self.currentTrigger ) {
                 self.positionTooltip( self.currentTooltip, self.currentTrigger );
             }
 
             return;
-        }
+        };
 
         // Add the global click handler
         this.addEventListener( document.body, 'click', clickHandler );
@@ -251,11 +252,11 @@ module.exports = {
         // Add the global focus handler
         this.addEventListener( document.body, 'focus', focusHandler, true );
 
-        // If a tooltip is open and the user scrolls, isotip needs to keep up with them
-        this.addEventListener( window, 'scroll', windowChangeHandler );
+        // If a tooltip is open and the user scrolls, isotip needs to keep up with the trigger
+        this.addEventListener( window, 'scroll', this.windowChangeHandler );
 
-        // If a tooltip is open and the user resizes the page, isotip needs to keep up with them
-        this.addEventListener( window, 'resize', windowChangeHandler );
+        // If a tooltip is open and the user resizes the page, isotip needs to keep up with the trigger
+        this.addEventListener( window, 'resize', this.windowChangeHandler );
     },
 
     /**
@@ -286,6 +287,7 @@ module.exports = {
             html = options.html || trigger.getAttribute( 'data-tooltip-html' ),
             placement = options.placement || trigger.getAttribute( 'data-tooltip-placement' ),
             container = options.container || trigger.getAttribute( 'data-tooltip-container' ),
+            scrollContainer = options.container || trigger.getAttribute( 'data-tooltip-scrollContainer' ),
             preExistingTooltip = document.querySelector( '.tooltip' ),
             tooltip = this.createDOMElement( this.options.template ),
             tooltipTitle,
@@ -329,6 +331,16 @@ module.exports = {
             this.currentContainer = document.querySelector( this.options.container );
         }
 
+        // If a scrollContainer was supplied and it's also not the window element, store that element
+        if ( scrollContainer && scrollContainer !== this.options.scrollContainer ) {
+            if ( typeof scrollContainer === 'string' ) {
+                this.currentScrollContainer = document.querySelector( scrollContainer );
+            }
+        // If they initialized tooltips and incase they set a different global container, store that element
+        } else {
+            this.currentScrollContainer = this.options.scrollContainer;
+        }
+
         if ( preExistingTooltip ) {
             this.currentTooltip = this.currentContainer.insertBefore( tooltip, preExistingTooltip );
         } else {
@@ -337,6 +349,11 @@ module.exports = {
 
         // Position the tooltip on the page
         this.positionTooltip( this.currentTooltip, trigger, placement );
+
+        // If a tooltip is open and the user scrolls, isotip needs to keep up with the trigger
+        if ( this.currentScrollContainer !== window ) {
+            this.addEventListener( this.currentScrollContainer, 'scroll', this.windowChangeHandler );
+        }
 
         return this.currentTooltip;
     },
@@ -357,10 +374,15 @@ module.exports = {
             tooltip = document.body.querySelector( tooltip );
         }
 
+        if ( this.currentScrollContainer !== window ) {
+            this.removeEventListener( this.currentScrollContainer, 'scroll', this.windowChangeHandler );
+        }
+
         this.removeClass( tooltip, 'visible' );
 
         this.currentTooltip = null;
         this.currentTrigger = null;
+        this.currentScrollContainer = null;
 
         // We should assume that there will be some sort of tooltip animation with CSS or JS
         // So we can only remove the element after a certain period of time
@@ -411,6 +433,10 @@ module.exports = {
             windowRight = ( window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth ) - this.options.windowPadding.right,
             windowBottom = ( window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight ) - this.options.windowPadding.bottom,
             windowLeft = this.options.windowPadding.left,
+            containerTop,
+            containerRight,
+            containerBottom,
+            containerLeft,
             tooltipX,
             tooltipY,
             tooltipWidth,
@@ -419,6 +445,26 @@ module.exports = {
             tooltipBottom,
             tooltipAccentWidth,
             tooltipAccentHeight;
+
+        if ( this.currentScrollContainer.getBoundingClientRect ) {
+            var scrollContainerPosition = this.currentScrollContainer.getBoundingClientRect();
+
+            if ( scrollContainerPosition.top >= 0 ) {
+                containerTop = scrollContainerPosition.top + this.options.windowPadding.top;
+            }
+
+            if ( scrollContainerPosition.right <= windowRight ) {
+                containerRight = scrollContainerPosition.right - this.options.windowPadding.right;
+            }
+
+            if ( scrollContainerPosition.bottom <= windowBottom ) {
+                containerBottom = scrollContainerPosition.bottom - this.options.windowPadding.bottom;
+            }
+
+            if ( scrollContainerPosition.left >= windowLeft ) {
+                containerLeft = scrollContainerPosition.left + this.options.windowPadding.left;
+            }
+        }
 
         /**
          * We sometimes need to re-position the tooltip (I.E. switch from top to bottom)
@@ -440,19 +486,19 @@ module.exports = {
             }
 
             // If the tooltip extends beyond the right edge of the window...
-            if ( tooltipRight > windowRight ) {
+            if ( tooltipRight > windowRight || tooltipRight > containerRight ) {
                 tooltip.style.top = 'auto';
                 tooltip.style.bottom = ( windowBottom + self.options.windowPadding.bottom - triggerY + self.options.tooltipOffset ) + 'px';
                 tooltip.style.right = self.options.windowPadding.right + 'px';
                 tooltipAccent.style.left = 'auto';
                 tooltipAccent.style.right = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + ( windowRight - triggerX - triggerWidth ) + 'px';
             // ...or if the tooltip extends beyond the top of the window...
-            } else if ( tooltipY < windowTop ) {
+            } else if ( tooltipY < windowTop || tooltipY < containerTop ) {
                 self.removeClass( tooltip, 'tooltip-top' );
 
                 return positionBottom();
             // ...or if the tooltip extends beyond the left edge of the window...
-            } else if ( tooltipX < self.options.windowPadding.left ) {
+            } else if ( tooltipX < windowLeft || tooltipX < containerLeft ) {
                 tooltip.style.top = 'auto';
                 tooltip.style.bottom = ( windowBottom + self.options.windowPadding.bottom - triggerY + self.options.tooltipOffset ) + 'px';
                 tooltip.style.left = self.options.windowPadding.left + 'px';
@@ -482,7 +528,7 @@ module.exports = {
             }
 
             // If the tooltip extends beyond the right edge of the screen...
-            if ( tooltipRight > windowRight ) {
+            if ( tooltipRight > windowRight || tooltipRight > containerRight ) {
                 self.removeClass( tooltip, 'tooltip-right' );
 
                 return positionTop();
@@ -510,18 +556,18 @@ module.exports = {
             }
 
             // If the tooltip extends beyond the right edge of the window...
-            if ( tooltipRight > windowRight ) {
+            if ( tooltipRight > windowRight || tooltipRight > containerRight ) {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.right = self.options.windowPadding.right + 'px';
                 tooltipAccent.style.left = 'auto';
                 tooltipAccent.style.right = (( triggerWidth / 2 ) - ( tooltipAccentWidth / 2 )) + ( windowRight - triggerX - triggerWidth ) + 'px';
             // ...or if the tooltip extends beyond the top of the window...
-            } else if ( tooltipBottom > windowBottom ) {
+            } else if ( tooltipBottom > windowBottom || tooltipBottom > containerBottom ) {
                 self.removeClass( tooltip, 'tooltip-bottom' );
 
                 return positionTop();
             // ...or if the tooltip extends beyond the left edge of the window...
-            } else if ( tooltipX < self.options.windowPadding.left ) {
+            } else if ( tooltipX < windowLeft || tooltipX < windowLeft ) {
                 tooltip.style.top = tooltipY + 'px';
                 tooltip.style.left = self.options.windowPadding.left + 'px';
                 tooltipAccent.style.right = 'auto';
@@ -549,7 +595,7 @@ module.exports = {
             }
 
             // If the tooltip extends beyond the right edge of the screen...
-            if ( tooltipX < windowLeft ) {
+            if ( tooltipX < windowLeft || tooltipX < containerLeft ) {
                 self.removeClass( tooltip, 'tooltip-left' );
 
                 return positionTop();
