@@ -70,6 +70,10 @@ This sets the element that the tooltip will be prepended to. By default, this is
 
 Alternatively, programattic creation and destruction of tooltips is available.
 
+### **`data-tooltip-scrollContainer`**
+
+This sets the element that will have a scroll event bound to it. If your tooltip is inside a scrolling element (`overflow:scroll`), you need to add this!.
+
 ### **`init( config )`**
 
 The init method provides automatic event binding for tooltips. It sets up delegated event listeners for `.tooltip-click`, `.tooltip-hover`, and `.tooltip-focus` for click, mouseover, and focus events respectively. You can pass in an optional config object to overwrite any of the default options.
@@ -79,6 +83,7 @@ var options = {
     html: false, // set to true to always interpret content as HTML
     placement: 'top', // default placement of tooltips
     container: 'body', // default containing element for the tooltip
+    scrollContainer: '.scroll-container', // default container for scroll watching
     template: '<div class="tooltip" data-tooltip-target="tooltip"></div>', // default template for the tooltip shell
     removalDelay: 200, // default number of ms before the tooltip is removed
     tooltipOffset: 10, // default number of px the tooltip is offset from the trigger element
@@ -126,6 +131,7 @@ isotip.positionTooltip( '.tooltip', '.tooltip-click', 'left' );
 
 ## Changelog
 
+- 1.2.0 - Adds a scrollContainer option for tooltips inside scolling elements
 - 1.1.2 - Reduces the default tooltip removal delay to 200ms
 - 1.1.1 - Fixes a typo in package.json
 - 1.1.0 - Fixed a bug where tooltips on far left or right were not positioned correctly. Top positioning has also been improved.

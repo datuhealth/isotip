@@ -232,6 +232,10 @@
             <dd>
                 <p>This sets the element that the tooltip will be prepended to. By default, this is the <code>&lt;body&gt;</code> element.</p>
             </dd>
+            <dt><pre><code>data-tooltip-scrollContainer</code></pre></dt>
+            <dd>
+                <p>This sets the element that will have a scroll event bound to it. If your tooltip is inside a scrolling element (<code>overflow:scroll</code>), you need to add this!.</p>
+            </dd>
         </dl>
         <p>Alternatively, programattic creation and destruction of tooltips is available.</p>
         <dl>
@@ -242,6 +246,7 @@
     html: false, // set to true to always interpret content as HTML
     placement: 'top', // default placement of tooltips
     container: 'body', // default containing element for the tooltip
+    scrollContainer: '.scroll-container', // default container for scroll watching
     template: &apos;&lt;div class=&quot;tooltip&quot; data-tooltip-target=&quot;tooltip&quot;&gt;&lt;/div&gt;&apos;, // default template for the tooltip shell
     removalDelay: 200, // default number of ms before the tooltip is removed
     tooltipOffset: 10, // default number of px the tooltip is offset from the trigger element
