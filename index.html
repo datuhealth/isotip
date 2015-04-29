@@ -134,6 +134,33 @@
             float: right;
         }
 
+        .scroll-container {
+            position: relative;
+            z-index: 100;
+            overflow: scroll;
+            margin-bottom: 50px;
+            height: 300px;
+            background-color: white;
+            border: 2px solid #E67E22;
+        }
+
+        .scroll-container > .tooltip-container {
+            padding-top: 1px;
+            height: 600px;
+        }
+
+        .scroll-container > .tooltip {
+            z-index: 0;
+            margin-top: 0;
+        }
+
+        .scroll-container .tooltip-click {
+            display: block;
+            margin: 100px auto 0 auto;
+            max-width: 210px;
+            text-align: center;
+        }
+
         code {
             padding: 2px 5px;
             color: #E67E22;
@@ -206,6 +233,11 @@
             </div>
             <div>
                 <span class="tooltip-click button tooltip-html" data-tooltip-content="<a href='http://google.com' target='_blank'>Google</a>" data-tooltip-html="true">Custom HTML content</span>
+            </div>
+        </div>
+        <div class="scroll-container">
+            <div class="tooltip-container">
+                <span class="tooltip-click button tooltip-scroll-container" data-tooltip-content="I'm In a scrolling container!" data-tooltip-placement="top" data-tooltip-container=".scroll-container" data-tooltip-scrollContainer=".scroll-container">In a scrolling container</span>
             </div>
         </div>
         <h2 class="h2" id="api">API</h2>

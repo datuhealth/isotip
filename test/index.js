@@ -280,6 +280,31 @@ describe( 'tooltip position', function() {
 
         expect( parseInt( tooltipTmp.style.bottom )).to.equal( window.innerHeight - triggerY + isotipJS.options.tooltipOffset );
     });
+
+    it( 'should keep up with a click trigger as a scrollable element scrolls', function() {
+        isotipJS.init({
+            placement: 'top',
+            windowPadding: {
+                top: 10
+            }
+        });
+
+        var trigger = document.querySelector( '.tooltip-scroll-container' ),
+            tooltipContainer = document.querySelector( '.tooltip-container' ),
+            scrollContainer = document.querySelector( '.scroll-container' ),
+            tooltipTmp = isotipJS.open( trigger ),
+            triggerY = trigger.getBoundingClientRect().top;
+
+        expect( parseInt( tooltipTmp.style.bottom )).to.equal( window.innerHeight - triggerY + isotipJS.options.tooltipOffset );
+
+        scrollContainer.scrollTop = 10;
+
+        triggerY = trigger.getBoundingClientRect().top;
+
+        isotipJS.positionTooltip( tooltipTmp, trigger );
+
+        expect( parseInt( tooltipTmp.style.bottom )).to.equal( window.innerHeight - triggerY + isotipJS.options.tooltipOffset );
+    });
 });
 
 describe( 'tooltip triggers', function() {
