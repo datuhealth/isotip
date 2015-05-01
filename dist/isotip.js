@@ -390,7 +390,7 @@ module.exports = {
         window.setTimeout(function removeElementFromDOM() {
             if ( tooltip && tooltip instanceof Element ) {
                 tooltip.parentNode.removeChild( tooltip );
-            } else {
+            } else if(tooltip) {
                 tooltip = document.body.querySelector( '.tooltip' );
 
                 tooltip.parentNode.removeChild( tooltip );
