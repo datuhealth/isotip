@@ -392,7 +392,9 @@ module.exports = {
             } else {
                 tooltip = document.body.querySelector( '.tooltip' );
 
-                tooltip.parentNode.removeChild( tooltip );
+                if ( tooltip ) {
+                    tooltip.parentNode.removeChild( tooltip );
+                }
             }
         }, this.options.removalDelay );
     },

@@ -390,10 +390,12 @@ module.exports = {
         window.setTimeout(function removeElementFromDOM() {
             if ( tooltip && tooltip instanceof Element ) {
                 tooltip.parentNode.removeChild( tooltip );
-            } else if(tooltip) {
+            } else {
                 tooltip = document.body.querySelector( '.tooltip' );
 
-                tooltip.parentNode.removeChild( tooltip );
+                if ( tooltip ) {
+                    tooltip.parentNode.removeChild( tooltip );
+                }
             }
         }, this.options.removalDelay );
     },
