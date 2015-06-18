@@ -429,9 +429,9 @@ module.exports = {
 
         var self = this,
             tooltipAccent = tooltip.querySelector( '.tooltip-accent' ),
-            triggerWidth = parseInt( trigger.offsetWidth ),
-            triggerHeight = parseInt( trigger.offsetHeight ),
             triggerPosition = trigger.getBoundingClientRect(),
+            triggerWidth = Math.floor( triggerPosition.width ),
+            triggerHeight = Math.floor( triggerPosition.height ),
             triggerX = triggerPosition.left,
             triggerY = triggerPosition.top,
             windowTop = this.options.windowPadding.top,
