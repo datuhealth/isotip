@@ -16,7 +16,7 @@
     "utility"
   ],
   "author": "Mike Engel <mike.engel@datuhealth.com>",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "devDependencies": {
     "browserify": "^12.0.1",
     "chai": "^3.3.0",
