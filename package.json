@@ -1,6 +1,6 @@
 {
   "name": "isotip",
-  "version": "1.2.4",
+  "version": "1.2.5",
   "description": "The javascript tooltip plugin with no dependencies",
   "main": "isotip.js",
   "repository": "https://github.com/datuhealth/isotip",
