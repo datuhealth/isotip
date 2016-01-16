@@ -124,9 +124,6 @@ module.exports = {
                 return;
             }
 
-            // Store the trigger element
-            self.currentTrigger = trigger;
-
             // Open the tooltip!
             self.open( trigger );
         }
@@ -187,9 +184,6 @@ module.exports = {
 
             self.open( trigger );
 
-            // Store the trigger element
-            self.currentTrigger = trigger;
-
             // Add an event to remove the tooltip when the user moves their cursor away
             self.addEventListener( trigger, 'mouseout', mouseoutHandler );
 
@@ -225,9 +219,6 @@ module.exports = {
             }
 
             self.open( trigger );
-
-            // Store the trigger element
-            self.currentTrigger = trigger;
 
             // Add an event to remove the tooltip when the user blurs from the element
             self.addEventListener( trigger, 'blur', blurHandler );
@@ -347,8 +338,10 @@ module.exports = {
             this.currentTooltip = this.currentContainer.appendChild( tooltip );
         }
 
+        this.currentTrigger = trigger;
+
         // Position the tooltip on the page
-        this.positionTooltip( this.currentTooltip, trigger, placement );
+        this.positionTooltip( this.currentTooltip, this.currentTrigger, placement );
 
         // If a tooltip is open and the user scrolls, isotip needs to keep up with the trigger
         if ( this.currentScrollContainer !== window ) {
