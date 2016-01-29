@@ -85,6 +85,16 @@ describe( 'tooltip markup', function() {
         expect( tooltipTmp.childNodes[ 1 ].tagName ).to.equal( 'SPAN' );
         expect( tooltipTmp.childNodes[ 1 ] instanceof Element ).to.equal( true );
     });
+
+    it( 'should accept a DOM Element', function() {
+        isotipJS.init();
+
+        var selector = '.tooltip-empty-insert-point',
+            el = document.createElement( 'p' ),
+            config = { html: true, content: el },
+            tooltipTmp = isotipJS.open( selector, config );
+        expect( tooltipTmp.childNodes[ 1 ].tagName ).to.equal( 'P' );
+    });
 });
 
 describe( 'tooltip options', function() {

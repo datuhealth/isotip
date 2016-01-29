@@ -131,6 +131,7 @@ isotip.positionTooltip( '.tooltip', '.tooltip-click', 'left' );
 
 ## Changelog
 
+- 1.2.6 - Support passing in a DOM element to content
 - 1.2.2 - Fixes an edge case when trying to close a tooltip and it didn't exist
 - 1.2.0 - Adds a scrollContainer option for tooltips inside scolling elements
 - 1.1.2 - Reduces the default tooltip removal delay to 200ms
