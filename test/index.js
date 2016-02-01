@@ -179,7 +179,6 @@ describe('tooltip position', function () {
     var triggerX = trigger.getBoundingClientRect().left
 
     expect(parseInt(tooltipTmp.style.left, 10)).to.be.above(isotip.options.windowPadding.left)
-    // Travis doesn't like this test even though it works fine locally?
     expect(parseInt(tooltipTmp.style.left, 10) + tooltipTmp.offsetWidth).to.equal(triggerX - isotip.options.tooltipOffset)
   })
 
