@@ -179,7 +179,7 @@ module.exports = {
         }
 
         // If the tooltip shouldn't autoclose, bail
-        if (self.currentTooltip.getAttribute('data-autoclose') === 'false') {
+        if (self.currentTooltip && self.currentTooltip.getAttribute('data-autoclose') === 'false') {
           return
         }
 
@@ -220,7 +220,7 @@ module.exports = {
       // Logic for handling the blur event
       function blurHandler () {
         // If the tooltip shouldn't automatically close, bail
-        if (self.currentTooltip.getAttribute('data-autoclose') === 'false') {
+        if (self.currentTooltip && self.currentTooltip.getAttribute('data-autoclose') === 'false') {
           return
         }
 
