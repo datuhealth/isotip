@@ -15,7 +15,19 @@
     "javascript",
     "utility"
   ],
-  "author": "Mike Engel <mike.engel@datuhealth.com>",
+  "author": "Mike Engel <mike@mike-engel.com>",
+  "contributors": [
+    {
+      "name": "Mike Engel",
+      "email": "mike@mike-engel.com",
+      "url": "http://mike-engel.com"
+    },
+    {
+      "name": "Jacob Magnusson",
+      "email": "m@jacobian.se",
+      "url": "https://github.com/jmagnusson"
+    }
+  ],
   "license": "Apache-2.0",
   "devDependencies": {
     "browserify": "^13.0.0",
@@ -23,12 +35,9 @@
     "derequire": "^2.0.2",
     "es5-shim": "^4.0.6",
     "gulp": "^3.8.10",
-    "gulp-jscs": "^3.0.1",
-    "gulp-jshint": "^2.0.0",
     "gulp-logwarn": "0.0.8",
     "gulp-mocha-phantomjs": "^0.10.1",
     "mocha": "^2.1.0",
-    "pre-commit": "^1.0.2",
     "uglify-js": "^2.4.16"
   }
 }
