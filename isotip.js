@@ -300,7 +300,9 @@ module.exports = {
 
         // If the supplied string should be interpreted as html, make an element for it...
         if ( ( this.options.html || html ) && content ) {
-            if ( this.getTagName( content )) {
+            if ( this.isElement( content )) {
+                tooltipContent = content;
+            } else if ( this.getTagName( content )) {
                 tooltipContent = this.createDOMElement( content );
             } else {
                 tooltipContent = this.createDOMElement( '<p class="tooltip-content">' + content + '</p>' );
@@ -828,6 +830,23 @@ module.exports = {
         'use strict';
 
         return /<([\w:]+)/.exec( html );
+    },
+
+    /**
+     * isElement - Small function to determine if object is a DOM element.
+     * @version 1.2.6
+     * @example
+     * this.isElement( '<div></div>' );  # false
+     * @example
+     * this.isElement( this.createElement('div') );  # true
+     * @param  {string} obj - The object to check
+     * @return {boolean} - Whether or not the object is a DOM element.
+     * @api private
+     */
+    isElement: function getTagName( obj ) {
+        'use strict';
+
+        return !!( obj && obj.nodeType === 1 );
     },
 
     /**
