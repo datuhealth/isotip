@@ -56,14 +56,19 @@
     </div>
     <script src="../node_modules/mocha/mocha.js"></script>
     <script src="../node_modules/chai/chai.js"></script>
-    <script>mocha.setup( 'bdd' );</script>
-    <script src="../tmp/index.js"></script>
+    <!-- <script>
+    if (typeof initMochaPhantomJS === 'function') {
+      initMochaPhantomJS()
+    }
+    </script> -->
     <script>
-      if (window.mochaPhantomJS) {
-        mochaPhantomJS.run();
-      } else {
-        mocha.run();
-      }
+    mocha.setup('bdd');
+    expect = chai.expect
+    </script>
+    <script src="../dist/isotip.js"></script>
+    <script src="./index.js"></script>
+    <script>
+    mocha.run();
     </script>
   </body>
 </html>
