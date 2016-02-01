@@ -97,6 +97,9 @@ module.exports = {
         // ...unless the user is clicking on the tooltip itself...
         if (trigger === self.currentTooltip) {
           return
+        // ...or if the tooltip shouldn't automatically close
+        } else if (self.currentTooltip.getAttribute('data-autoclose') === 'false') {
+          return
         // ...or if the user if clicking on the original trigger for that tooltip
         } else if (trigger === self.currentTrigger) {
           self.close(self.currentTooltip)
@@ -145,6 +148,9 @@ module.exports = {
         // ...unless the user is hovering over the tooltip itself...
         if (trigger === self.currentTooltip) {
           return
+        // ...or if the tooltip shouldn't autoclose
+        } else if (self.currentTooltip.getAttribute('data-autoclose') === 'false') {
+          return
         } else {
           var children = self.currentTooltip.childNodes
 
@@ -161,7 +167,7 @@ module.exports = {
         }
       }
 
-      // Logig for handling the mouseout event
+      // Logic for handling the mouseout event
       function mouseoutHandler (moEvt) {
         if (!moEvt) {
           moEvt = window.event
@@ -170,6 +176,11 @@ module.exports = {
         var moTrigger = evt.target || evt.srcElement
 
         if (self.hasClass(moTrigger)) {
+          return
+        }
+
+        // If the tooltip shouldn't autoclose, bail
+        if (self.currentTooltip.getAttribute('data-autoclose') === 'false') {
           return
         }
 
@@ -203,12 +214,17 @@ module.exports = {
       }
 
       // If there's already a tooltip open, close that one...
-      if (self.currentTooltip) {
+      if (self.currentTooltip && self.currentTooltip.getAttribute('data-autoclose') !== 'false') {
         self.close(self.currentTooltip)
       }
 
       // Logic for handling the blur event
       function blurHandler () {
+        // If the tooltip shouldn't automatically close, bail
+        if (self.currentTooltip.getAttribute('data-autoclose') === 'false') {
+          return
+        }
+
         self.close(self.currentTooltip)
 
         // Remove self event to keep things clean
@@ -276,6 +292,7 @@ module.exports = {
     var placement = options.placement || trigger.getAttribute('data-tooltip-placement')
     var container = options.container || trigger.getAttribute('data-tooltip-container')
     var scrollContainer = options.container || trigger.getAttribute('data-tooltip-scrollContainer')
+    var autoClose = options.autoClose || !!trigger.getAttribute('data-autoclose') || true
     var preExistingTooltip = document.querySelector('.tooltip')
     var tooltip = this.createDOMElement(this.options.template)
     var tooltipTitle
@@ -329,6 +346,11 @@ module.exports = {
     // If they initialized tooltips and incase they set a different global container, store that element
     } else {
       this.currentScrollContainer = this.options.scrollContainer
+    }
+
+    // If autoClose is set to false, add an attribute for the event handler to look for
+    if (!autoClose) {
+      tooltip.setAttribute('data-autoclose', 'false')
     }
 
     if (preExistingTooltip) {

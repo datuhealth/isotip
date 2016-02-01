@@ -108,7 +108,8 @@ var config = {
     html: false, // set to true to interpret content as HTML
     placement: 'top', // where to place the tooltip in relation to the trigger
     content: 'Tooltip content', // the content to go into the tooltip,
-    title: 'Tooltip title' // the text to go in the title, if any
+    title: 'Tooltip title', // the text to go in the title, if any
+    autoClose: false // set to false if you only want to close the tooltip programmatically
 };
 
 isotip.open( '.tooltip', config );
