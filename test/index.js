@@ -317,6 +317,14 @@ describe('tooltip position', function () {
 })
 
 describe('tooltip triggers', function () {
+  beforeEach(function () {
+    var tooltip = document.querySelector('.tooltip')
+
+    if (tooltip) {
+      tooltip.parentNode.removeChild(tooltip)
+    }
+  })
+
   it('should open a tooltip on click', function () {
     isotip.init({
       placement: 'top',
@@ -335,7 +343,7 @@ describe('tooltip triggers', function () {
     expect(tooltipTmp).to.exist
   })
 
-  it('should close a tooltip on click on the trigger again', function () {
+  it('should close a tooltip on click on the trigger again', function (done) {
     isotip.init({
       placement: 'top',
       windowPadding: {
@@ -353,10 +361,12 @@ describe('tooltip triggers', function () {
       tooltipTmp = document.querySelector('.tooltip')
 
       expect(tooltipTmp).to.not.exist
+
+      done()
     }, isotip.options.removalDelay)
   })
 
-  it('should close a tooltip on click outside of the tooltip', function () {
+  it('should close a tooltip on click outside of the tooltip', function (done) {
     isotip.init({
       placement: 'top',
       windowPadding: {
@@ -374,10 +384,12 @@ describe('tooltip triggers', function () {
       tooltipTmp = document.querySelector('.tooltip')
 
       expect(tooltipTmp).to.not.exist
+
+      done()
     }, isotip.options.removalDelay)
   })
 
-  it('should not close a tooltip on click on the toolip', function () {
+  it('should not close a tooltip on click on the toolip', function (done) {
     isotip.init({
       placement: 'top',
       windowPadding: {
@@ -398,10 +410,12 @@ describe('tooltip triggers', function () {
       tooltipTmp = document.querySelector('.tooltip')
 
       expect(tooltipTmp).to.exist
+
+      done()
     }, isotip.options.removalDelay)
   })
 
-  it('should not close a tooltip if autoClose is set to false', function () {
+  it('should not close a tooltip if autoClose is set to false', function (done) {
     isotip.init({
       placement: 'top',
       windowPadding: {
@@ -424,10 +438,12 @@ describe('tooltip triggers', function () {
       expect(tooltipTmp).to.exist
 
       isotip.close(tooltipTmp)
+
+      done()
     }, isotip.options.removalDelay)
   })
 
-  it('should not close a tooltip if autoClose is set to false programmatically', function () {
+  it('should not close a tooltip if autoClose is set to false programmatically', function (done) {
     isotip.init({
       placement: 'top',
       windowPadding: {
@@ -450,10 +466,12 @@ describe('tooltip triggers', function () {
       expect(tooltipTmp).to.exist
 
       isotip.close(tooltipTmp)
+
+      done()
     }, isotip.options.removalDelay)
   })
 
-  it('should not close a tooltip on click on a child element in toolip', function () {
+  it('should not close a tooltip on click on a child element in toolip', function (done) {
     isotip.init({
       placement: 'top',
       windowPadding: {
@@ -476,10 +494,12 @@ describe('tooltip triggers', function () {
       tooltipTmp = document.querySelector('.tooltip')
 
       expect(tooltipTmp).to.exist
+
+      done()
     }, isotip.options.removalDelay)
   })
 
-  it('should only remove the tooltip after the removal delay time', function () {
+  it('should only remove the tooltip after the removal delay time', function (done) {
     isotip.init({
       placement: 'top',
       windowPadding: {
@@ -502,6 +522,8 @@ describe('tooltip triggers', function () {
       tooltipTmp = document.querySelector('.tooltip')
 
       expect(tooltipTmp).to.not.exist
+
+      done()
     }, isotip.options.removalDelay)
   })
 
@@ -523,7 +545,7 @@ describe('tooltip triggers', function () {
     expect(tooltipTmp).to.exist
   })
 
-  it('should close a tooltip on mouseout', function () {
+  it('should close a tooltip on mouseout', function (done) {
     isotip.init({
       placement: 'top',
       windowPadding: {
@@ -541,10 +563,12 @@ describe('tooltip triggers', function () {
       tooltipTmp = document.querySelector('.tooltip')
 
       expect(tooltipTmp).to.not.exist
+
+      done()
     }, isotip.options.removalDelay)
   })
 
-  it('should not close a tooltip on mouseout if hovered over the tooltip', function () {
+  it('should not close a tooltip on mouseout if hovered over the tooltip', function (done) {
     isotip.init({
       placement: 'top',
       windowPadding: {
@@ -563,10 +587,12 @@ describe('tooltip triggers', function () {
 
     window.setTimeout(function () {
       expect(tooltipTmp.parentNode.nodeName).to.equal('BODY')
+
+      done()
     }, isotip.options.removalDelay)
   })
 
-  it('should not close a tooltip on mouseout if autoClose is set to false', function () {
+  it('should not close a tooltip on mouseout if autoClose is set to false', function (done) {
     isotip.init({
       placement: 'top',
       windowPadding: {
@@ -586,10 +612,12 @@ describe('tooltip triggers', function () {
       expect(tooltipTmp).to.exist
 
       isotip.close(tooltipTmp)
+
+      done()
     }, isotip.options.removalDelay)
   })
 
-  it('should not close a tooltip on mouseout if autoClose is set to false programmatically', function () {
+  it('should not close a tooltip on mouseout if autoClose is set to false programmatically', function (done) {
     isotip.init({
       placement: 'top',
       windowPadding: {
@@ -608,6 +636,8 @@ describe('tooltip triggers', function () {
       expect(tooltipTmp).to.exist
 
       isotip.close(tooltipTmp)
+
+      done()
     }, isotip.options.removalDelay)
   })
 
@@ -629,7 +659,7 @@ describe('tooltip triggers', function () {
     expect(tooltipTmp).to.exist
   })
 
-  it('should close a tooltip on blur', function () {
+  it('should close a tooltip on blur', function (done) {
     isotip.init({
       placement: 'top',
       windowPadding: {
@@ -647,10 +677,12 @@ describe('tooltip triggers', function () {
       tooltipTmp = document.querySelector('.tooltip')
 
       expect(tooltipTmp).to.not.exist
+
+      done()
     }, isotip.options.removalDelay)
   })
 
-  it('should not close a tooltip on blur if autoClose is set to false', function () {
+  it('should not close a tooltip on blur if autoClose is set to false', function (done) {
     isotip.init({
       placement: 'top',
       windowPadding: {
@@ -670,10 +702,12 @@ describe('tooltip triggers', function () {
       expect(tooltipTmp).to.exist
 
       isotip.close(tooltipTmp)
+
+      done()
     }, isotip.options.removalDelay)
   })
 
-  it('should not close a tooltip on blur if autoClose is set to false programmatically', function () {
+  it('should not close a tooltip on blur if autoClose is set to false programmatically', function (done) {
     isotip.init({
       placement: 'top',
       windowPadding: {
@@ -692,6 +726,8 @@ describe('tooltip triggers', function () {
       expect(tooltipTmp).to.exist
 
       isotip.close(tooltipTmp)
+
+      done()
     }, isotip.options.removalDelay)
   })
 })

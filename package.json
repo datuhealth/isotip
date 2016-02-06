@@ -44,7 +44,9 @@
     "global": [
       "describe",
       "it",
-      "expect"
+      "expect",
+      "beforeEach",
+      "afterEach"
     ],
     "ignore": [
       "dist/*.js"

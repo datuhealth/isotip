@@ -398,12 +398,15 @@ module.exports = {
     // We should assume that there will be some sort of tooltip animation with CSS or JS
     // So we can only remove the element after a certain period of time
     window.setTimeout(function removeElementFromDOM () {
-      if (tooltip && tooltip instanceof window.Element) {
+      console.log(tooltip)
+      console.log(Array.prototype.slice.call(tooltip))
+
+      if (tooltip && tooltip instanceof window.Element && tooltip.parentNode) {
         tooltip.parentNode.removeChild(tooltip)
       } else {
         tooltip = document.body.querySelector('.tooltip')
 
-        if (tooltip) {
+        if (tooltip && tooltip.parentNode) {
           tooltip.parentNode.removeChild(tooltip)
         }
       }
