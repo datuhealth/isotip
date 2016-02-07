@@ -6,7 +6,7 @@ Changelog
 
 This should only be used if you're going to close a tooltip programmatically. There are two ways to set this option.
 
-1. On the trigger element. Set the `data-autoclose` attribute to false.
+1. On the trigger element. Set the `data-tooltip-autoclose` attribute to false.
 2. Programmatically. When calling `isotip.open()`, set `autoClose` to false in the options object.
 
 Additionally,
