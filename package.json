@@ -37,7 +37,7 @@
     "es5-shim": "^4.0.6",
     "mocha": "^2.1.0",
     "mocha-phantomjs": "^4.0.2",
-    "standard": "^6.0.1",
+    "standard": "^6.0.4",
     "uglify-js": "^2.4.16"
   },
   "standard": {
