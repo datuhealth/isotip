@@ -9,6 +9,12 @@ This should only be used if you're going to close a tooltip programmatically. Th
 1. On the trigger element. Set the `data-autoclose` attribute to false.
 2. Programmatically. When calling `isotip.open()`, set `autoClose` to false in the options object.
 
+Additionally,
+
+- A class name can be added by passing `className` to `open`, or setting `data-tooltip-classname`
+- Fixed a bug where clicking a child element in a tooltip would close the tooltip
+- Fixed tests so they actually run properly
+
 # 1.2.6
 - Support passing in a DOM element to content
 

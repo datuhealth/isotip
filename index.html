@@ -244,6 +244,10 @@
         <p>Isotip (purposefully) has a simple api. It provides a simple helper function to automatically bind certain events and open tooltips when they fire.</p>
         <p>Configuring a specific tooltip is done via data attributes on an element.</p>
         <dl>
+            <dt><pre><code>data-tooltip-classname</code></pre></dt>
+            <dd>
+                <p>If you'd like to add a classname to the root tooltip element, set it here.</p>
+            </dd>
             <dt><pre><code>data-tooltip-content</code></pre></dt>
             <dd>
                 <p>This sets the main body content of the tooltip into a <code>&lt;p&gt;</code> tag by default with a class of <code>tooltip-content</code>. Content is interpreted as plain text by default. To insert html, set the <code>data-tooltip-html</code> attribute to true.</p>
@@ -268,6 +272,10 @@
             <dd>
                 <p>This sets the element that will have a scroll event bound to it. If your tooltip is inside a scrolling element (<code>overflow:scroll</code>), you need to add this!.</p>
             </dd>
+            <dt><pre><code>data-tooltip-autoclose</code></pre></dt>
+            <dd>
+                <p>If set to false, the tooltip won't close until you programmatically close it with <code>isotip.close()</code>.</p>
+            </dd>
         </dl>
         <p>Alternatively, programattic creation and destruction of tooltips is available.</p>
         <dl>
@@ -275,19 +283,19 @@
             <dd>
                 <p>The init method provides automatic event binding for tooltips. It sets up delegated event listeners for <code>.tooltip-click</code>, <code>.tooltip-hover</code>, and <code>.tooltip-focus</code> for click, mouseover, and focus events respectively. You can pass in an optional config object to overwrite any of the default options.</p>
                 <pre><code>var options = {
-    html: false, // set to true to always interpret content as HTML
-    placement: 'top', // default placement of tooltips
-    container: 'body', // default containing element for the tooltip
-    scrollContainer: '.scroll-container', // default container for scroll watching
-    template: &apos;&lt;div class=&quot;tooltip&quot; data-tooltip-target=&quot;tooltip&quot;&gt;&lt;/div&gt;&apos;, // default template for the tooltip shell
-    removalDelay: 200, // default number of ms before the tooltip is removed
-    tooltipOffset: 10, // default number of px the tooltip is offset from the trigger element
-    windowPadding: { // window bounds for tooltip repositioning
-        top: 10,
-        right: 10,
-        bottom: 10,
-        left: 10
-    }
+  html: false, // set to true to always interpret content as HTML
+  placement: 'top', // default placement of tooltips
+  container: 'body', // default containing element for the tooltip
+  scrollContainer: '.scroll-container', // default container for scroll watching
+  template: &apos;&lt;div class=&quot;tooltip&quot; data-tooltip-target=&quot;tooltip&quot;&gt;&lt;/div&gt;&apos;, // default template for the tooltip shell
+  removalDelay: 200, // default number of ms before the tooltip is removed
+  tooltipOffset: 10, // default number of px the tooltip is offset from the trigger element
+  windowPadding: { // window bounds for tooltip repositioning
+    top: 10,
+    right: 10,
+    bottom: 10,
+    left: 10
+  }
 };
 
 isotip.init( config );</code></pre>
@@ -296,11 +304,14 @@ isotip.init( config );</code></pre>
             <dd>
                 <p>The open method will create the tooltip, insert it into the DOM, and position it in relation to it's trigger. The trigger can be an element or a CSS selector. The object to be passed in will serve as a replacement for the data attributes on the trigger.</p>
                 <pre><code>var config = {
-    html: false, // set to true to interpret content as HTML
-    placement: 'top', // where to place the tooltip in relation to the trigger
-    content: 'Tooltip content', // the content to go into the tooltip,
-    title: 'Tooltip title', // the text to go in the title, if any
-    autoClose: false // set to false to only close a tooltip programmatically
+  className: 'specific-class', // set to add a class to the tooltip
+  html: false, // set to true to interpret content as HTML
+  placement: 'top', // where to place the tooltip in relation to the trigger
+  content: 'Tooltip content', // the content to go into the tooltip,
+  title: 'Tooltip title', // the text to go in the title, if any
+  container: document.querySelector('.container'), // the container to append the tooltip to
+  scrollContainer: document.querySelector('.scroll-container'), // the container to bind the scroll event to
+  autoClose: false // set to false if you only want to close the tooltip programmatically
 };
 
 isotip.open( '.tooltip', config );</code></pre>
