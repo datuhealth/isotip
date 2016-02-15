@@ -91,8 +91,11 @@ module.exports = {
 
       var trigger = evt.target || evt.srcElement
 
+      // If there's a tooltip open and it shouldn't close, don't close it _or_ open a new one
+      if (self.currentTooltip && self.currentTooltip.getAttribute('data-autoclose') === 'false') {
+        return
       // If there's already a tooltip open, close that one...
-      if (self.currentTooltip && self.currentTooltip.getAttribute('data-autoclose') !== 'false') {
+      } else if (self.currentTooltip) {
         // ...unless the user is clicking on the tooltip itself...
         if (trigger === self.currentTooltip) {
           return
@@ -133,8 +136,11 @@ module.exports = {
         return
       }
 
+      // If there's a tooltip open and it shouldn't close, don't close it _or_ open a new one
+      if (self.currentTooltip && self.currentTooltip.getAttribute('data-autoclose') === 'false') {
+        return
       // If there's already a tooltip open, close that one...
-      if (self.currentTooltip && self.currentTooltip.getAttribute('data-autoclose') !== 'false') {
+      } else if (self.currentTooltip) {
         // ...unless the user is hovering over the tooltip itself...
         if (trigger === self.currentTooltip) {
           return
@@ -194,8 +200,11 @@ module.exports = {
         return
       }
 
+      // If there's a tooltip open and it shouldn't close, don't close it _or_ open a new one
+      if (self.currentTooltip && self.currentTooltip.getAttribute('data-autoclose') === 'false') {
+        return
       // If there's already a tooltip open, close that one...
-      if (self.currentTooltip && self.currentTooltip.getAttribute('data-autoclose') !== 'false') {
+      } else if (self.currentTooltip) {
         self.close(self.currentTooltip)
       }
 
