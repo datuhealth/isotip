@@ -92,12 +92,9 @@ module.exports = {
       var trigger = evt.target || evt.srcElement
 
       // If there's already a tooltip open, close that one...
-      if (self.currentTooltip) {
+      if (self.currentTooltip && self.currentTooltip.getAttribute('data-autoclose') !== 'false') {
         // ...unless the user is clicking on the tooltip itself...
         if (trigger === self.currentTooltip) {
-          return
-        // ...or if the tooltip shouldn't automatically close
-        } else if (self.currentTooltip.getAttribute('data-autoclose') === 'false') {
           return
         // ...or if the user if clicking on the original trigger for that tooltip
         } else if (trigger === self.currentTrigger) {
@@ -137,12 +134,9 @@ module.exports = {
       }
 
       // If there's already a tooltip open, close that one...
-      if (self.currentTooltip) {
+      if (self.currentTooltip && self.currentTooltip.getAttribute('data-autoclose') !== 'false') {
         // ...unless the user is hovering over the tooltip itself...
         if (trigger === self.currentTooltip) {
-          return
-        // ...or if the tooltip shouldn't autoclose
-        } else if (self.currentTooltip.getAttribute('data-autoclose') === 'false') {
           return
         } else {
           // loop through the child elements in the tooltip to see if one of them has been clicked
@@ -279,7 +273,6 @@ module.exports = {
     var placement = options.placement || trigger.getAttribute('data-tooltip-placement')
     var container = options.container || trigger.getAttribute('data-tooltip-container')
     var scrollContainer = options.container || trigger.getAttribute('data-tooltip-scrollContainer')
-    var autoClose = options.autoClose || trigger.getAttribute('data-tooltip-autoclose') !== 'false'
     var preExistingTooltip = document.querySelector('.tooltip')
     var tooltip = this.createDOMElement(this.options.template)
     var tooltipTitle
@@ -341,7 +334,7 @@ module.exports = {
     }
 
     // If autoClose is set to false, add an attribute for the event handler to look for
-    if (!autoClose) {
+    if (options.autoClose === false || trigger.getAttribute('data-tooltip-autoclose') === 'false') {
       tooltip.setAttribute('data-autoclose', 'false')
     }
 
