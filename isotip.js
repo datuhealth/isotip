@@ -18,7 +18,8 @@ module.exports = {
       right: 10,
       bottom: 10,
       left: 10
-    }
+    },
+    autoClose: true
   },
 
   /**
@@ -278,7 +279,10 @@ module.exports = {
     var placement = options.placement || trigger.getAttribute('data-tooltip-placement')
     var container = options.container || trigger.getAttribute('data-tooltip-container')
     var scrollContainer = options.container || trigger.getAttribute('data-tooltip-scrollContainer')
-    var autoClose = options.autoClose || trigger.getAttribute('data-tooltip-autoclose') !== 'false'
+    var autoClose = options.autoClose
+    if (autoClose !== false) {
+      autoClose = trigger.getAttribute('data-tooltip-autoclose') !== 'false'
+    }
     var preExistingTooltip = document.querySelector('.tooltip')
     var tooltip = this.createDOMElement(this.options.template)
     var tooltipTitle
