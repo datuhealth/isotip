@@ -49,6 +49,10 @@ Isotip (purposefully) has a simple api. It provides a simple helper function to 
 
 Configuring a specific tooltip is done via data attributes on an element.
 
+### **`data-tooltip-classname`**
+
+If you'd like to add a classname to the root tooltip element, set it here.
+
 ### **`data-tooltip-content`**
 
 This sets the main body content of the tooltip into a `<p>` tag by default with a class of `tooltip-content`. Content is interpreted as plain text by default. To insert html, set the data-tooltip-html attribute to true.
@@ -74,6 +78,10 @@ Alternatively, programattic creation and destruction of tooltips is available.
 ### **`data-tooltip-scrollContainer`**
 
 This sets the element that will have a scroll event bound to it. If your tooltip is inside a scrolling element (`overflow:scroll`), you need to add this!.
+
+### **`data-tooltip-autoclose`**
+
+If set to false, the tooltip will *not* close unless you do so programmatically with `isotip.close()`.
 
 ### **`init( config )`**
 
@@ -105,10 +113,14 @@ The open method will create the tooltip, insert it into the DOM, and position it
 
 ```javascript
 var config = {
+    className: 'specific-class', // set to add a class to the tooltip
     html: false, // set to true to interpret content as HTML
     placement: 'top', // where to place the tooltip in relation to the trigger
     content: 'Tooltip content', // the content to go into the tooltip,
-    title: 'Tooltip title' // the text to go in the title, if any
+    title: 'Tooltip title', // the text to go in the title, if any
+    container: document.querySelector('.container'), // the container to append the tooltip to
+    scrollContainer: document.querySelector('.scroll-container'), // the container to bind the scroll event to
+    autoClose: false // set to false if you only want to close the tooltip programmatically
 };
 
 isotip.open( '.tooltip', config );

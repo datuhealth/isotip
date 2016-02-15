@@ -8,59 +8,183 @@
   <body style="width:100%;height:100%;margin:0;padding:0 0 1000px 0;">
     <div id="mocha">
         <div>
-            <span class="tooltip-click tooltip-top-edge" data-tooltip-content="Test content">This is a default tooltip at the top of the page</span>
+            <span
+              class="tooltip-click tooltip-top-edge"
+              data-tooltip-content="Test content"
+              data-tooltip-classname="top-edge"
+            >
+              This is a default tooltip at the top of the page
+            </span>
         </div>
         <div style="margin-top:100px;">
-            <span class="tooltip-click tooltip-default" data-tooltip-content="Test content">This is a default tooltip further down</span>
+            <span
+              class="tooltip-click tooltip-default"
+              data-tooltip-content="Test content"
+              data-tooltip-classname="default"
+            >
+              This is a default tooltip further down
+            </span>
         </div>
         <div>
-            <span class="tooltip-focus" data-tooltip-content="Test content">This is a default tooltip further down</span>
+            <span
+              class="tooltip-focus"
+              data-tooltip-content="Test content"
+              data-tooltip-classname="focus"
+            >
+              This is a default tooltip further down
+            </span>
         </div>
         <div>
-            <span class="tooltip-hover" data-tooltip-content="Test content">This is a default tooltip further down</span>
+            <span
+              class="tooltip-hover"
+              data-tooltip-content="Test content"
+              data-tooltip-classname="hover"
+            >
+              This is a default tooltip further down
+            </span>
         </div>
         <div>
-            <span class="tooltip-click tooltip-top" data-tooltip-content="Test content" data-tooltip-placement="top">This is a top tooltip</span>
+            <span
+              class="tooltip-click tooltip-top"
+              data-tooltip-content="Test content"
+              data-tooltip-placement="top"
+              data-tooltip-classname="top"
+            >
+              This is a top tooltip
+            </span>
         </div>
         <div>
-            <span class="tooltip-click tooltip-right" data-tooltip-content="Test content" data-tooltip-placement="right">This is a right tooltip</span>
+            <span
+              class="tooltip-click tooltip-right"
+              data-tooltip-content="Test content"
+              data-tooltip-placement="right"
+              data-tooltip-classname="right"
+            >
+              This is a right tooltip
+            </span>
         </div>
         <div>
-            <span class="tooltip-click tooltip-bottom" data-tooltip-content="Test content" data-tooltip-placement="bottom">This is a bottom tooltip</span>
+            <span
+              class="tooltip-click tooltip-bottom"
+              data-tooltip-content="Test content"
+              data-tooltip-placement="bottom"
+              data-tooltip-classname="bottom"
+            >
+              This is a bottom tooltip
+            </span>
         </div>
-        <div style="margin-left: 100px;">
-            <span class="tooltip-click tooltip-left" data-tooltip-content="Test content" data-tooltip-placement="left">This is a left tooltip</span>
+        <div style="margin-left: 200px;">
+            <span class="tooltip-click tooltip-left"
+              data-tooltip-content="Test content"
+              data-tooltip-placement="left"
+              data-tooltip-classname="left"
+            >
+              This is a left tooltip
+            </span>
         </div>
         <div>
-            <span class="tooltip-click tooltip-title" data-tooltip-content="Test content" data-tooltip-title="Tooltip title">This is a tooltip with a title</span>
+            <span
+              class="tooltip-click tooltip-title"
+              data-tooltip-content="Test content"
+              data-tooltip-title="Tooltip title"
+              data-tooltip-classname="title"
+            >
+              This is a tooltip with a title
+            </span>
         </div>
         <div>
-            <span class="tooltip-click tooltip-html" data-tooltip-content="<span class='custom'>Hey there</span>" data-tooltip-html="true">This is a tooltip with custom HTML</span>
+            <span
+              class="tooltip-click tooltip-html"
+              data-tooltip-content="<span class='custom'>Hey there</span>"
+              data-tooltip-html="true"
+              data-tooltip-classname="html"
+            >
+              This is a tooltip with custom HTML
+            </span>
         </div>
         <div>
-            <p class="tooltip-click tooltip-right-edge" data-tooltip-content="Test content" data-tooltip-placement="right">This is a tooltip too far to the right</span>
+            <p
+              class="tooltip-click tooltip-right-edge"
+              data-tooltip-content="Test content"
+              data-tooltip-placement="right"
+              data-tooltip-classname="right-edge"
+            >
+              This is a tooltip too far to the right
+            </span>
         </div>
         <div style="position:absolute;bottom:0;">
-            <p class="tooltip-click tooltip-bottom-edge" data-tooltip-content="Test content" data-tooltip-placement="bottom">This is a tooltip too far below</span>
+            <p
+              class="tooltip-click tooltip-bottom-edge"
+              data-tooltip-content="Test content"
+              data-tooltip-placement="bottom"
+              data-tooltip-classname="bottom-edge"
+            >
+              This is a tooltip too far below
+            </span>
         </div>
         <div>
-            <span class="tooltip-click tooltip-left-edge" data-tooltip-content="Test content" data-tooltip-placement="left">This is a tooltip too far to the left</span>
+            <span
+              class="tooltip-click tooltip-left-edge"
+              data-tooltip-content="Test content"
+              data-tooltip-placement="left"
+              data-tooltip-classname="left-edge"
+            >
+              This is a tooltip too far to the left
+            </span>
         </div>
-        <div class="tooltip-empty-insert-point">
+        <div>
+            <span
+              class="tooltip-click tooltip-no-close"
+              data-tooltip-autoclose="false"
+              data-tooltip-content="Test content"
+              data-tooltip-placement="left"
+              data-tooltip-classname="click-no-close"
+            >
+              This is a tooltip too far to the left
+            </span>
         </div>
+        <div>
+            <span
+              class="tooltip-hover tooltip-no-close"
+              data-tooltip-autoclose="false"
+              data-tooltip-content="Test content"
+              data-tooltip-placement="left"
+              data-tooltip-classname="hover-no-close"
+            >
+              This is a tooltip too far to the left
+            </span>
+        </div>
+
+        <div>
+            <span
+              class="tooltip-focus tooltip-no-close"
+              data-tooltip-autoclose="false"
+              data-tooltip-content="Test content"
+              data-tooltip-placement="left"
+              data-tooltip-classname="focus-no-close"
+            >
+              This is a tooltip too far to the left
+            </span>
+        </div>
+        <div class="tooltip-empty-insert-point"></div>
         <div class="scroll-container" style="overflow:scroll;height:300px;">
             <div class="tooltip-container" style="height: 600px;">
-                <span class="tooltip-click button tooltip-scroll-container" style="margin-top: 100px;display:block;" data-tooltip-content="I'm In a scrolling container!" data-tooltip-placement="top" data-tooltip-container=".scroll-container" data-tooltip-scrollContainer=".scroll-container">In a scrolling container</span>
+                <span
+                  class="tooltip-click button tooltip-scroll-container"
+                  style="margin-top: 100px;display:block;"
+                  data-tooltip-content="I'm In a scrolling container!"
+                  data-tooltip-placement="top"
+                  data-tooltip-container=".scroll-container"
+                  data-tooltip-scrollContainer=".scroll-container"
+                  data-tooltip-classname="scroll-container-tooltip"
+                >
+                  In a scrolling container
+                </span>
             </div>
         </div>
     </div>
     <script src="../node_modules/mocha/mocha.js"></script>
     <script src="../node_modules/chai/chai.js"></script>
-    <!-- <script>
-    if (typeof initMochaPhantomJS === 'function') {
-      initMochaPhantomJS()
-    }
-    </script> -->
     <script>
     mocha.setup('bdd');
     expect = chai.expect

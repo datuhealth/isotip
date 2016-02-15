@@ -18,12 +18,12 @@ module.exports = {
       right: 10,
       bottom: 10,
       left: 10
-    }
+    },
+    autoClose: true
   },
 
   /**
    * initializeTooltips - Initialize function to bind events and set any global data
-   * @version 1.0.0
    * @example
    * tooltips.init()
    * @param  {object} (config) - Congifuration object that is used to overwrite the defaults in this.options
@@ -96,21 +96,18 @@ module.exports = {
         // ...unless the user is clicking on the tooltip itself...
         if (trigger === self.currentTooltip) {
           return
+        // ...or if the tooltip shouldn't automatically close
+        } else if (self.currentTooltip.getAttribute('data-autoclose') === 'false') {
+          return
         // ...or if the user if clicking on the original trigger for that tooltip
         } else if (trigger === self.currentTrigger) {
           self.close(self.currentTooltip)
 
           return
         } else {
-          var children = self.currentTooltip.childNodes
-
           // loop through the child elements in the tooltip to see if one of them has been clicked
-          for (var childNode in children) {
-            if (window.Object.hasOwnProperty(children, childNode)) {
-              if (children[ childNode ] === trigger) {
-                return
-              }
-            }
+          if (self.hasParent(trigger, self.currentTooltip)) {
+            return false
           }
 
           self.close(self.currentTooltip)
@@ -144,23 +141,20 @@ module.exports = {
         // ...unless the user is hovering over the tooltip itself...
         if (trigger === self.currentTooltip) {
           return
+        // ...or if the tooltip shouldn't autoclose
+        } else if (self.currentTooltip.getAttribute('data-autoclose') === 'false') {
+          return
         } else {
-          var children = self.currentTooltip.childNodes
-
-          // loop through the child elements in the tooltip to see if one of them has been hovered
-          for (var childNode in children) {
-            if (window.Object.hasOwnProperty.call(children, childNode)) {
-              if (children[ childNode ] === trigger) {
-                return
-              }
-            }
+          // loop through the child elements in the tooltip to see if one of them has been clicked
+          if (self.hasParent(trigger, self.currentTooltip)) {
+            return false
           }
 
           self.close(self.currentTooltip)
         }
       }
 
-      // Logig for handling the mouseout event
+      // Logic for handling the mouseout event
       function mouseoutHandler (moEvt) {
         if (!moEvt) {
           moEvt = window.event
@@ -169,6 +163,11 @@ module.exports = {
         var moTrigger = evt.target || evt.srcElement
 
         if (self.hasClass(moTrigger)) {
+          return
+        }
+
+        // If the tooltip shouldn't autoclose, bail
+        if (self.currentTooltip && self.currentTooltip.getAttribute('data-autoclose') === 'false') {
           return
         }
 
@@ -202,12 +201,17 @@ module.exports = {
       }
 
       // If there's already a tooltip open, close that one...
-      if (self.currentTooltip) {
+      if (self.currentTooltip && self.currentTooltip.getAttribute('data-autoclose') !== 'false') {
         self.close(self.currentTooltip)
       }
 
       // Logic for handling the blur event
       function blurHandler () {
+        // If the tooltip shouldn't automatically close, bail
+        if (self.currentTooltip && self.currentTooltip.getAttribute('data-autoclose') === 'false') {
+          return
+        }
+
         self.close(self.currentTooltip)
 
         // Remove self event to keep things clean
@@ -250,7 +254,6 @@ module.exports = {
 
   /**
    * openTooltip - Main open function to prepare and insert the tooltip
-   * @version 1.0.0
    * @example
    * tooltip.open( document.body.querySelector( '#tooltip-trigger' ))
    * @param  {string|element} trigger - The element that serves as the trigger for the tooltip
@@ -269,12 +272,17 @@ module.exports = {
     }
 
     // Setup tooltip variables, starting with the config object if there is one
+    var className = options.className || trigger.getAttribute('data-tooltip-classname')
     var content = options.content || trigger.getAttribute('data-tooltip-content')
     var title = options.title || trigger.getAttribute('data-tooltip-title')
     var html = options.html || trigger.getAttribute('data-tooltip-html')
     var placement = options.placement || trigger.getAttribute('data-tooltip-placement')
     var container = options.container || trigger.getAttribute('data-tooltip-container')
     var scrollContainer = options.container || trigger.getAttribute('data-tooltip-scrollContainer')
+    var autoClose = options.autoClose
+    if (autoClose !== false) {
+      autoClose = trigger.getAttribute('data-tooltip-autoclose') !== 'false'
+    }
     var preExistingTooltip = document.querySelector('.tooltip')
     var tooltip = this.createDOMElement(this.options.template)
     var tooltipTitle
@@ -286,6 +294,11 @@ module.exports = {
     }
 
     tooltip.appendChild(this.createDOMElement('<div class="tooltip-accent"></div>'))
+
+    // If there should be an added class name, add it
+    if (className) {
+      this.addClass(tooltip, className)
+    }
 
     // If there's a title to be displayed, create the title element
     if (title) {
@@ -330,6 +343,11 @@ module.exports = {
       this.currentScrollContainer = this.options.scrollContainer
     }
 
+    // If autoClose is set to false, add an attribute for the event handler to look for
+    if (!autoClose) {
+      tooltip.setAttribute('data-autoclose', 'false')
+    }
+
     if (preExistingTooltip) {
       this.currentTooltip = preExistingTooltip.parentNode.insertBefore(tooltip, preExistingTooltip)
     } else {
@@ -351,7 +369,6 @@ module.exports = {
 
   /**
    * closeTooltip - Main close function to close a specific tooltip
-   * @version 1.0.0
    * @example
    * tooltip.close( document.body.querySelector( '.tooltip' ))
    * @param  {string|element} tooltip - The tooltip that needs to be closed
@@ -376,12 +393,12 @@ module.exports = {
     // We should assume that there will be some sort of tooltip animation with CSS or JS
     // So we can only remove the element after a certain period of time
     window.setTimeout(function removeElementFromDOM () {
-      if (tooltip && tooltip instanceof window.Element) {
+      if (tooltip && tooltip instanceof window.Element && tooltip.parentNode) {
         tooltip.parentNode.removeChild(tooltip)
       } else {
         tooltip = document.body.querySelector('.tooltip')
 
-        if (tooltip) {
+        if (tooltip && tooltip.parentNode) {
           tooltip.parentNode.removeChild(tooltip)
         }
       }
@@ -390,7 +407,6 @@ module.exports = {
 
   /**
    * positionTooltip - Logic for positioning the tooltip on the page
-   * @version 1.0.0
    * @example
    * this.positionTooltip( this.currentTooltip, this.currentTrigger, 'top' )
    * @param  {string|element} tooltip - The tooltip that needs to be positioned
@@ -651,7 +667,6 @@ module.exports = {
 
   /**
    * addEventListener - Small function to add an event listener. Should be compatible with IE8+
-   * @version 1.0.0
    * @example
    * this.addEventListener( document.body, 'click', this.open( this.currentTooltip ))
    * @param  {element} el - The element node that needs to have the event listener added
@@ -684,7 +699,6 @@ module.exports = {
 
   /**
    * removeEventListener - Small function to remove and event listener. Should be compatible with IE8+
-   * @version 1.0.0
    * @example
    * this.removeEventListener( document.body, 'click', this.open( this.currentTooltip ))
    * @param  {element} el - The element node that needs to have the event listener removed
@@ -719,7 +733,6 @@ module.exports = {
 
   /**
    * hasClass - Small function to see if an element has a specific class. Should be compatible with IE8+
-   * @version 1.0.0
    * @example
    * this.hasClass( this.currentTooltip, 'visible' )
    * @param  {element} el - The element to check the class existence on
@@ -737,7 +750,6 @@ module.exports = {
 
   /**
    * addClass - Small function to add a class to an element. Should be compatible with IE8+
-   * @version 1.0.0
    * @example
    * this.addClass( this.currentTooltip, 'visible' )
    * @param  {element} el - The element to add the class to
@@ -757,7 +769,6 @@ module.exports = {
 
   /**
    * removeClass - Small function to remove a class from an element. Should be compatible with IE8+
-   * @version 1.0.0
    * @example
    * this.removeClass( this.currentTooltip, 'visible' )
    * @param  {element} el - The element to remove the class from
@@ -779,7 +790,6 @@ module.exports = {
 
   /**
    * setInnerText - Small function to set the inner text of an element. Should be compatible with IE8+
-   * @version 1.0.0
    * @example
    * this.setInnerText( this.currentTooltip, 'Hello world' )
    * @param  {element} el - The element to have the text inserted into
@@ -799,7 +809,6 @@ module.exports = {
 
   /**
    * getTagName - Small function to get the tag name of an html string.
-   * @version 1.0.0
    * @example
    * this.getTagName( '<div></div>' )
    * @param  {string} html - The string of html to check for the tag
@@ -812,7 +821,6 @@ module.exports = {
 
   /**
    * isElement - Small function to determine if object is a DOM element.
-   * @version 1.2.6
    * @example
    * this.isElement( '<div></div>' );  # false
    * @example
@@ -827,7 +835,6 @@ module.exports = {
 
   /**
    * createDOMElement - Small function to transform an html string into an element
-   * @version 1.0.0
    * @example
    * this.createDOMElement( '<div class="new-element">Hello world</div>' )
    * @param  {string} html - The string of html to turn into html
@@ -854,5 +861,31 @@ module.exports = {
 
     // Extract the fresh element
     return el.removeChild(el.firstChild)
+  },
+
+  /**
+   * hasParent - Small element to find the closest parent to an element
+   * @example
+   * element.closest('.tooltip')
+   * @param {Element} el - The element to start with
+   * @param {Element} parent - The parent element to match against/search for
+   * @return {bool} - Whether or not the element has the parent
+   */
+  hasParent: function hasParent (el, parent) {
+    if (!el || !parent) {
+      return false
+    }
+
+    var match = false
+
+    while (el.parentNode && !match) {
+      el = el.parentNode
+
+      if (el === parent) {
+        match = true
+      }
+    }
+
+    return match
   }
 }

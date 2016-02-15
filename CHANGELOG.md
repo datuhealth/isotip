@@ -1,6 +1,20 @@
 Changelog
 =========
 
+# 1.3.0
+- Add a configuration option to disallow a tooltip to close by normal mouse/keyboard events.
+
+This should only be used if you're going to close a tooltip programmatically. There are two ways to set this option.
+
+1. On the trigger element. Set the `data-tooltip-autoclose` attribute to false.
+2. Programmatically. When calling `isotip.open()`, set `autoClose` to false in the options object.
+
+Additionally,
+
+- A class name can be added by passing `className` to `open`, or setting `data-tooltip-classname`
+- Fixed a bug where clicking a child element in a tooltip would close the tooltip
+- Fixed tests so they actually run properly
+
 # 1.2.6
 - Support passing in a DOM element to content
 
