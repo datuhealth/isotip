@@ -4,7 +4,7 @@ Changelog
 # 1.3.0
 - Add a configuration option to disallow a tooltip to close by normal mouse/keyboard events.
 
-This should only be used if you're going to close a tooltip programmatically. There are two ways to set this option.
+**This should only be used if you're going to close a tooltip programmatically**. There are two ways to set this option.
 
 1. On the trigger element. Set the `data-tooltip-autoclose` attribute to false.
 2. Programmatically. When calling `isotip.open()`, set `autoClose` to false in the options object.

@@ -81,7 +81,7 @@ This sets the element that will have a scroll event bound to it. If your tooltip
 
 ### **`data-tooltip-autoclose`**
 
-If set to false, the tooltip will *not* close unless you do so programmatically with `isotip.close()`.
+If set to false, the tooltip will *not* close unless you do so programmatically with `isotip.close()`. Normal tooltips will not open until the open one has been closed!
 
 ### **`init( config )`**
 
@@ -120,7 +120,7 @@ var config = {
     title: 'Tooltip title', // the text to go in the title, if any
     container: document.querySelector('.container'), // the container to append the tooltip to
     scrollContainer: document.querySelector('.scroll-container'), // the container to bind the scroll event to
-    autoClose: false // set to false if you only want to close the tooltip programmatically
+    autoClose: false // set to false if you only want to close the tooltip programmatically. Normal tooltips won't open until the open one has been closed!
 };
 
 isotip.open( '.tooltip', config );

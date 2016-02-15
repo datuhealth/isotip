@@ -274,7 +274,7 @@
             </dd>
             <dt><pre><code>data-tooltip-autoclose</code></pre></dt>
             <dd>
-                <p>If set to false, the tooltip won't close until you programmatically close it with <code>isotip.close()</code>.</p>
+                <p>If set to false, the tooltip won't close until you programmatically close it with <code>isotip.close()</code>. Note that normal tooltips will not open until the open tooltip has been closed!</p>
             </dd>
         </dl>
         <p>Alternatively, programattic creation and destruction of tooltips is available.</p>
@@ -311,7 +311,7 @@ isotip.init( config );</code></pre>
   title: 'Tooltip title', // the text to go in the title, if any
   container: document.querySelector('.container'), // the container to append the tooltip to
   scrollContainer: document.querySelector('.scroll-container'), // the container to bind the scroll event to
-  autoClose: false // set to false if you only want to close the tooltip programmatically
+  autoClose: false // set to false if you only want to close the tooltip programmatically. Normal tooltips will not open until this is closed!
 };
 
 isotip.open( '.tooltip', config );</code></pre>

@@ -335,11 +335,10 @@ describe('tooltip position', function () {
 
 describe('tooltip triggers', function () {
   beforeEach(function () {
-    var tooltip = document.querySelector('.tooltip')
+    isotip.currentTooltip && isotip.currentTooltip.parentNode.removeChild(isotip.currentTooltip)
 
-    if (tooltip) {
-      tooltip.parentNode.removeChild(tooltip)
-    }
+    isotip.currentTooltip = null
+    isotip.currentTrigger = null
   })
 
   it('should open a tooltip on click', function () {
@@ -448,13 +447,59 @@ describe('tooltip triggers', function () {
       }
     })
 
-    var trigger = document.querySelector('.tooltip-click.tooltip-no-close')
+    var trigger = document.querySelector('.tooltip-click')
     var tooltipTmp = isotip.open(trigger, { autoClose: false })
 
     eventFire(trigger, 'click')
 
     window.setTimeout(function () {
       expect(document.documentElement.contains(tooltipTmp)).to.be.ok
+
+      done()
+    }, isotip.options.removalDelay + 1)
+  })
+
+  it('should not open another tooltip if one with autoClose set to false is already open', function (done) {
+    isotip.init({
+      placement: 'top',
+      windowPadding: {
+        top: 10
+      }
+    })
+
+    var trigger = document.querySelector('.tooltip-click.tooltip-no-close')
+    var tooltipTmp = isotip.open(trigger)
+
+    expect(document.documentElement.contains(tooltipTmp)).to.be.ok
+
+    var tooltipTmp2 = isotip.open(document.querySelector('.tooltip-click'))
+
+    window.setTimeout(function () {
+      expect(document.documentElement.contains(tooltipTmp)).to.be.ok
+      expect(document.documentElement.contains(tooltipTmp2)).to.not.be.ok
+
+      done()
+    }, isotip.options.removalDelay + 1)
+  })
+
+  it('should not open another tooltip programmatically if one with autoClose set to false is already open', function (done) {
+    isotip.init({
+      placement: 'top',
+      windowPadding: {
+        top: 10
+      }
+    })
+
+    var trigger = document.querySelector('.tooltip-click')
+    var tooltipTmp = isotip.open(trigger, { autoClose: false })
+
+    expect(document.documentElement.contains(tooltipTmp)).to.be.ok
+
+    var tooltipTmp2 = isotip.open(document.querySelector('.tooltip-default'))
+
+    window.setTimeout(function () {
+      expect(document.documentElement.contains(tooltipTmp)).to.be.ok
+      expect(document.documentElement.contains(tooltipTmp2)).to.not.be.ok
 
       done()
     }, isotip.options.removalDelay + 1)
@@ -592,6 +637,29 @@ describe('tooltip triggers', function () {
     }, isotip.options.removalDelay + 1)
   })
 
+  it('should not open a new tooltip on mouseover if one with autoClose set to false exists', function (done) {
+    isotip.init({
+      placement: 'top',
+      windowPadding: {
+        top: -10
+      }
+    })
+
+    var trigger = document.querySelector('.tooltip-click.tooltip-no-close')
+    var tooltipTmp = isotip.open(trigger)
+
+    expect(document.documentElement.contains(tooltipTmp)).to.be.ok
+
+    var tooltipTmp2 = isotip.open(document.querySelector('.tooltip-hover'))
+
+    setTimeout(function () {
+      expect(document.documentElement.contains(tooltipTmp)).to.be.ok
+      expect(document.documentElement.contains(tooltipTmp2)).to.not.be.ok
+
+      done()
+    }, isotip.options.removalDelay + 1)
+  })
+
   it('should not close a tooltip on mouseout if autoClose is set to false programmatically', function (done) {
     isotip.init({
       placement: 'top',
@@ -607,6 +675,29 @@ describe('tooltip triggers', function () {
 
     window.setTimeout(function () {
       expect(document.documentElement.contains(tooltipTmp)).to.be.ok
+
+      done()
+    }, isotip.options.removalDelay + 1)
+  })
+
+  it('should not open a new tooltip on mouseover programmatically if one with autoClose set to false exists', function (done) {
+    isotip.init({
+      placement: 'top',
+      windowPadding: {
+        top: -10
+      }
+    })
+
+    var trigger = document.querySelector('.tooltip-click')
+    var tooltipTmp = isotip.open(trigger, { autoClose: false })
+
+    expect(document.documentElement.contains(tooltipTmp)).to.be.ok
+
+    var tooltipTmp2 = isotip.open(document.querySelector('.tooltip-hover'))
+
+    setTimeout(function () {
+      expect(document.documentElement.contains(tooltipTmp)).to.be.ok
+      expect(document.documentElement.contains(tooltipTmp2)).to.not.be.ok
 
       done()
     }, isotip.options.removalDelay + 1)
@@ -673,7 +764,30 @@ describe('tooltip triggers', function () {
     }, isotip.options.removalDelay + 1)
   })
 
-  it('should not close a tooltip on blur if autoClose is set to false programmatically', function (done) {
+  it('should open a new tooltip on blur if one with autoClose set to false exists', function (done) {
+    isotip.init({
+      placement: 'top',
+      windowPadding: {
+        top: 10
+      }
+    })
+
+    var trigger = document.querySelector('.tooltip-click.tooltip-no-close')
+    var tooltipTmp = isotip.open(trigger)
+
+    expect(document.documentElement.contains(tooltipTmp)).to.be.ok
+
+    var tooltipTmp2 = isotip.open(document.querySelector('.tooltip-focus'))
+
+    setTimeout(function () {
+      expect(document.documentElement.contains(tooltipTmp)).to.be.ok
+      expect(document.documentElement.contains(tooltipTmp2)).to.not.be.ok
+
+      done()
+    }, isotip.options.removalDelay + 1)
+  })
+
+  it('should not close a tooltip on focus if autoClose is set to false programmatically', function (done) {
     isotip.init({
       placement: 'top',
       windowPadding: {
@@ -688,6 +802,29 @@ describe('tooltip triggers', function () {
 
     window.setTimeout(function () {
       expect(document.documentElement.contains(tooltipTmp)).to.be.ok
+
+      done()
+    }, isotip.options.removalDelay + 1)
+  })
+
+  it('should open a new tooltip programmatically on focus if one with autoClose set to false exists', function (done) {
+    isotip.init({
+      placement: 'top',
+      windowPadding: {
+        top: 10
+      }
+    })
+
+    var trigger = document.querySelector('.tooltip-click')
+    var tooltipTmp = isotip.open(trigger, { autoClose: false })
+
+    expect(document.documentElement.contains(tooltipTmp)).to.be.ok
+
+    var tooltipTmp2 = isotip.open(document.querySelector('.tooltip-focus'))
+
+    setTimeout(function () {
+      expect(document.documentElement.contains(tooltipTmp)).to.be.ok
+      expect(document.documentElement.contains(tooltipTmp2)).to.not.be.ok
 
       done()
     }, isotip.options.removalDelay + 1)

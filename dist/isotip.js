@@ -292,6 +292,11 @@ module.exports = {
       return
     }
 
+    // If there's a tooltip open with autoClose set to false, don't open a new one
+    if (this.currentTooltip && this.currentTooltip.getAttribute('data-autoclose') === 'false') {
+      return
+    }
+
     tooltip.appendChild(this.createDOMElement('<div class="tooltip-accent"></div>'))
 
     // If there should be an added class name, add it
