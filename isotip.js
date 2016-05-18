@@ -130,9 +130,15 @@ module.exports = {
 
       var trigger = evt.target || evt.srcElement
 
-      // If the element the user is hovering over isn't supposed to trigger a tooltip, bail
-      if (!self.hasClass(trigger, 'tooltip-hover')) {
-        return
+      while (true) {
+        // If the element the user is hovering over isn't supposed to trigger a tooltip, bail
+        if (!trigger) {
+          return
+        }
+        if (self.hasClass(trigger, 'tooltip-hover')) {
+          break
+        }
+        trigger = trigger.parentNode
       }
 
       // If there's a tooltip open and it shouldn't close, don't close it _or_ open a new one
@@ -160,6 +166,7 @@ module.exports = {
         }
 
         var moTrigger = evt.target || evt.srcElement
+        var relatedTarget = (moEvt.relatedTarget || moEvt.toElement)
 
         if (self.hasClass(moTrigger)) {
           return
@@ -167,6 +174,10 @@ module.exports = {
 
         // If the tooltip shouldn't autoclose, bail
         if (self.currentTooltip && self.currentTooltip.getAttribute('data-autoclose') === 'false') {
+          return
+        }
+
+        if (relatedTarget && self.hasParent(relatedTarget, moTrigger)) {
           return
         }
 
