@@ -399,7 +399,7 @@ describe('tooltip triggers', function () {
     }, isotip.options.removalDelay + 1)
   })
 
-  it('should not close a tooltip on click on the toolip', function (done) {
+  it('should not close a tooltip on click on the tooltip', function (done) {
     isotip.init({
       placement: 'top',
       windowPadding: {
@@ -505,7 +505,7 @@ describe('tooltip triggers', function () {
     }, isotip.options.removalDelay + 1)
   })
 
-  it('should not close a tooltip on click on a child element in toolip', function (done) {
+  it('should not close a tooltip on click on a child element in tooltip', function (done) {
     isotip.init({
       placement: 'top',
       windowPadding: {
