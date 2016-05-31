@@ -829,4 +829,31 @@ describe('tooltip triggers', function () {
       done()
     }, isotip.options.removalDelay + 1)
   })
+
+  it('should close the tooltip after a certain amount of time', function (done) {
+    var timeout = 500
+
+    isotip.init({
+      placement: 'top',
+      windowPadding: {
+        top: 10
+      },
+      removalDelay: 100
+    })
+
+    var trigger = document.querySelector('.tooltip-timeout')
+    var tooltipTmp = isotip.open(trigger, {timeout: timeout})
+
+    expect(document.documentElement.contains(tooltipTmp)).to.be.ok
+
+    setTimeout(function () {
+      expect(document.documentElement.contains(tooltipTmp)).to.be.ok
+
+      setTimeout(function () {
+        expect(document.documentElement.contains(tooltipTmp)).to.not.be.ok
+
+        done()
+      }, timeout / 2 + isotip.options.removalDelay + 1)
+    }, timeout / 2)
+  })
 })
