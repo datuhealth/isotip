@@ -87,6 +87,10 @@ This sets the element that will have a scroll event bound to it. If your tooltip
 
 If set to false, the tooltip will *not* close unless you do so programmatically with `isotip.close()`. Normal tooltips will not open until the open one has been closed!
 
+### **`data-tooltip-timeout`**
+
+If set (in milliseconds), will autoclose the tooltip after a set amount of time.
+
 ### **`init( config )`**
 
 The init method provides automatic event binding for tooltips. It sets up delegated event listeners for `.tooltip-click`, `.tooltip-hover`, and `.tooltip-focus` for click, mouseover, and focus events respectively. You can pass in an optional config object to overwrite any of the default options.
@@ -100,6 +104,7 @@ var options = {
     template: '<div class="tooltip" data-tooltip-target="tooltip"></div>', // default template for the tooltip shell
     removalDelay: 200, // default number of ms before the tooltip is removed
     tooltipOffset: 10, // default number of px the tooltip is offset from the trigger element
+    timeout: 0, // default number of ms to autoclose the toolip
     windowPadding: { // window bounds for tooltip repositioning
         top: 10,
         right: 10,

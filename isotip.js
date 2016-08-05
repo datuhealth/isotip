@@ -13,6 +13,7 @@ module.exports = {
     template: '<div class="tooltip" data-tooltip-target="tooltip"></div>',
     removalDelay: 200,
     tooltipOffset: 10,
+    timeout: 0,
     windowPadding: {
       top: 10,
       right: 10,
@@ -263,6 +264,8 @@ module.exports = {
    * @return {element} - Returns the tooltip that was inserted into the DOM
    */
   open: function openTooltip (trigger, options) {
+    var self = this
+
     // We need a DOM element, so make it one if it isn't already
     if (typeof trigger === 'string') {
       trigger = document.body.querySelector(trigger)
@@ -281,6 +284,7 @@ module.exports = {
     var placement = options.placement || trigger.getAttribute('data-tooltip-placement')
     var container = options.container || trigger.getAttribute('data-tooltip-container')
     var scrollContainer = options.container || trigger.getAttribute('data-tooltip-scrollContainer')
+    var timeout = options.timeout || trigger.getAttribute('data-tooltip-timeout')
     var preExistingTooltip = document.querySelector('.tooltip')
     var tooltip = this.createDOMElement(this.options.template)
     var tooltipTitle
@@ -365,6 +369,14 @@ module.exports = {
     // If a tooltip is open and the user scrolls, isotip needs to keep up with the trigger
     if (this.currentScrollContainer !== window) {
       this.addEventListener(this.currentScrollContainer, 'scroll', this.windowChangeHandler)
+    }
+
+    // This will autoclose a tooltip after certain amount of time in millis and
+    // assumes that tooltip-autoclose is set to true
+    if (timeout) {
+      setTimeout(function () {
+        self.close(tooltip)
+      }, timeout)
     }
 
     return this.currentTooltip
