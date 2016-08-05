@@ -90,6 +90,7 @@ module.exports = {
       }
 
       var trigger = evt.target || evt.srcElement
+      var target = self.selfOrAncestorByClass(trigger, 'tooltip-click')
 
       // If there's a tooltip open and it shouldn't close, don't close it _or_ open a new one
       if (self.currentTooltip && self.currentTooltip.getAttribute('data-autoclose') === 'false') {
@@ -97,10 +98,10 @@ module.exports = {
       // If there's already a tooltip open, close that one...
       } else if (self.currentTooltip) {
         // ...unless the user is clicking on the tooltip itself...
-        if (trigger === self.currentTooltip) {
+        if (target === self.currentTooltip) {
           return
         // ...or if the user if clicking on the original trigger for that tooltip
-        } else if (trigger === self.currentTrigger) {
+        } else if (target === self.currentTrigger) {
           self.close(self.currentTooltip)
 
           return
@@ -115,12 +116,12 @@ module.exports = {
       }
 
       // If the element the user is clicking on isn't supposed to trigger a tooltip, bail
-      if (!self.hasClass(trigger, 'tooltip-click')) {
+      if (!target) {
         return
       }
 
       // Open the tooltip!
-      self.open(trigger)
+      self.open(target)
     }
 
     // Logic for handling a mouseover event
@@ -130,9 +131,9 @@ module.exports = {
       }
 
       var trigger = evt.target || evt.srcElement
+      var target = self.selfOrAncestorByClass(trigger, 'tooltip-hover')
 
-      // If the element the user is hovering over isn't supposed to trigger a tooltip, bail
-      if (!self.hasClass(trigger, 'tooltip-hover')) {
+      if (!target) {
         return
       }
 
@@ -142,16 +143,7 @@ module.exports = {
       // If there's already a tooltip open, close that one...
       } else if (self.currentTooltip) {
         // ...unless the user is hovering over the tooltip itself...
-        if (trigger === self.currentTooltip) {
-          return
-        } else {
-          // loop through the child elements in the tooltip to see if one of them has been clicked
-          if (self.hasParent(trigger, self.currentTooltip)) {
-            return false
-          }
-
-          self.close(self.currentTooltip)
-        }
+        return false
       }
 
       // Logic for handling the mouseout event
@@ -161,28 +153,30 @@ module.exports = {
         }
 
         var moTrigger = evt.target || evt.srcElement
-
-        if (self.hasClass(moTrigger)) {
-          return
-        }
+        var moTarget = self.selfOrAncestorByClass(moTrigger, 'tooltip-hover')
+        var relatedTarget = (moEvt.relatedTarget || moEvt.toElement)
 
         // If the tooltip shouldn't autoclose, bail
         if (self.currentTooltip && self.currentTooltip.getAttribute('data-autoclose') === 'false') {
           return
         }
 
+        if (relatedTarget && (moTarget === relatedTarget || self.hasParent(relatedTarget, moTarget))) {
+          return
+        }
+
         self.close(self.currentTooltip)
 
         // Remove self event to keep things clean
-        self.removeEventListener(trigger, 'mouseout', mouseoutHandler)
+        self.removeEventListener(target, 'mouseout', mouseoutHandler)
 
         return
       }
 
-      self.open(trigger)
+      self.open(target)
 
       // Add an event to remove the tooltip when the user moves their cursor away
-      self.addEventListener(trigger, 'mouseout', mouseoutHandler)
+      self.addEventListener(target, 'mouseout', mouseoutHandler)
 
       return
     }
@@ -891,6 +885,26 @@ module.exports = {
     }
 
     return match
+  },
+
+  /**
+   * selfOrAncestorByClass - Looks up element by className, traversing up the DOM tree
+   * @example
+   * element.selfOrAncestorByClass(someEl, 'tooltip-hover')
+   * @param {Element} el - The element to start with
+   * @param {Element} className - The element class name to look for
+   * @return {Element|null} - The found element, or null if not found
+   */
+  selfOrAncestorByClass: function selfOrAncestorByClass (el, className) {
+    while (true) {
+      if (!el) {
+        return null
+      }
+      if (this.hasClass(el, className)) {
+        return el
+      }
+      el = el.parentNode
+    }
   }
 }
 
